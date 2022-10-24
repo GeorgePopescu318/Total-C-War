@@ -1,4 +1,4 @@
-# OOP Template
+# Total C War
 
 ### Tema 0
 
@@ -51,3 +51,6 @@
 ## Resurse
 
 - adăugați trimiteri către resursele externe care v-au ajutat sau pe care le-ați folosit
+# Total C War
+*work in progress*
+## I am working on a game where you control an army of soldiers in order to destroy the enemies
