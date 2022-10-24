@@ -1,9 +1,9 @@
-# OOP Template
+# Total C War
 
 ### Tema 0
 
-- [ ] Nume proiect (îl puteți schimba ulterior)
-- [ ] Scurtă descriere a temei alese, ce v-ați propus să implementați
+- [x] Nume proiect (îl puteți schimba ulterior)
+- [x] Scurtă descriere a temei alese, ce v-ați propus să implementați
 
 ## Tema 1
 
@@ -51,3 +51,7 @@
 ## Resurse
 
 - adăugați trimiteri către resursele externe care v-au ajutat sau pe care le-ați folosit
+# Total C War
+
+*work in progress*
+### I am working on a game where you control an army of soldiers in order to destroy the enemies, you will have under your command infantry, archers and cavalry.
