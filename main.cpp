@@ -3,11 +3,11 @@
 /// {infantry, archers, cavalry};
 class unit{
 protected:
-    int health;
-    int dmg;
-    int defence;
-    int range;
-    int movement_pts;
+    int health = 0;
+    int dmg = 0;
+    int defence = 0;
+    int range = 0;
+    int movement_pts = 0;
 public:
     unit() = default;
     unit(const int health_, const int dmg_,const int defence_, const int range_, const int movement_pts_) :
@@ -32,7 +32,7 @@ public:
     infantry();
     infantry(const int health_, const int dmg_, const int defence_, const int range_, const int movement_pts_, const int block_chance_)
             : unit(health_,dmg_,defence_,range_,movement_pts_), block_chance{block_chance_}{}
-    friend std::ostream& operator<<(std::ostream& os, infantry& inf);
+    friend std::ostream& operator<<(std::ostream& os,const infantry& inf);
     infantry(const infantry& other) : unit(other), block_chance{other.block_chance}{}
     ~infantry() = default;
 };
@@ -42,7 +42,7 @@ public:
     archers();
     archers(const int health_, const int dmg_, const int defence_, const int range_, const int movement_pts_,const int miss_chance_)
             : unit(health_,dmg_,defence_,range_,movement_pts_), miss_chance{miss_chance_}{}
-    friend std::ostream& operator<<(std::ostream& os,archers& arch);
+    friend std::ostream& operator<<(std::ostream& os,const archers& arch);
     archers(const archers& other) : unit(other), miss_chance{other.miss_chance}{}
     ~archers() = default;
 };
@@ -52,7 +52,7 @@ public:
     cavalry();
     cavalry(const int health_, const int dmg_, const int defence_, const int range_, const int movement_pts_,const int charge_bonus_)
             : unit(health_,dmg_,defence_,range_,movement_pts_), charge_bonus{charge_bonus_}{}
-    friend std::ostream& operator<<(std::ostream& os,cavalry& cav);
+    friend std::ostream& operator<<(std::ostream& os,const cavalry& cav);
     cavalry(const cavalry& other) : unit(other), charge_bonus{other.charge_bonus}{}
     ~cavalry() = default;
 
@@ -96,7 +96,7 @@ infantry::infantry(){
     block_chance = 10;
 
 }
-std::ostream& operator<<(std::ostream& os,infantry& inf){
+std::ostream& operator<<(std::ostream& os,const infantry& inf){
     os << "Health: " << inf.health << "; Damage: " << inf.dmg << "; Defence: " << inf.defence << "; Range: " << inf.range <<"; Movement Points: " << inf.movement_pts
        << "; Block chance: " << inf.block_chance;
     return os;
@@ -109,7 +109,7 @@ archers::archers() {
     movement_pts = 7;
     miss_chance = 10;
 }
-std::ostream& operator<<(std::ostream& os,archers& arch){
+std::ostream& operator<<(std::ostream& os,const archers& arch){
     os << "Health: " << arch.health << "; Damage: " << arch.dmg << "; Defence: " << arch.defence << "; Range: " << arch.range <<"; Movement Points: "
        << arch.movement_pts << "; Miss chance: " << arch.miss_chance;
     return os;
@@ -122,7 +122,7 @@ cavalry::cavalry() {
     movement_pts = 10;
     charge_bonus = 10;
 }
-std::ostream& operator<<(std::ostream& os,cavalry& cav){
+std::ostream& operator<<(std::ostream& os,const cavalry& cav){
     os << "Health: " << cav.health << "; Damage: " << cav.dmg << "; Defence: " << cav.defence << "; Range: " << cav.range <<"; Movement Points: "
        << cav.movement_pts << "; Charge bonus: " << cav.charge_bonus;
     return os;
