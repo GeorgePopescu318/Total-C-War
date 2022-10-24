@@ -54,4 +54,4 @@
 # Total C War
 
 *work in progress*
-### I am working on a game where you control an army of soldiers in order to destroy the enemies
+### I am working on a game where you control an army of soldiers in order to destroy the enemies, you will have under your command infantry, archers and cavalry.
