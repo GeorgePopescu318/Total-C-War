@@ -66,14 +66,14 @@ class player{
     std::vector<cavalry> cavv;
 public:
     player() = default;
-    void init( int inf_nr, int arch_nr, int cav_nr);
+    void init(const int inf_nr,const int arch_nr,const int cav_nr);
     friend std::ostream& operator<<(std::ostream& os,const player& ply);
     ~player() = default;
 
 };
 class game{
     player p1,p2;
-    std::vector<std::vector<int> > board;
+   // std::vector<std::vector<int> > board;
 public:
     game() = default;
     void config();
@@ -84,6 +84,7 @@ public:
 int main() {
     game g1;
     g1.start_game(g1);
+    std::cout<<sizeof(game);
     return 0;
 }
 std::ostream& operator<<(std::ostream& os, const unit& un){
@@ -131,7 +132,7 @@ std::ostream& operator<<(std::ostream& os,const cavalry& cav){
        << cav.movement_pts <<"; X Location: "<<cav.x<<"; Y Location: "<<cav.y<< "; Charge bonus: " << cav.charge_bonus;
     return os;
 }
-void player::init(int inf_nr,int arch_nr,int cav_nr){
+void player::init(const int inf_nr,const int arch_nr,const int cav_nr){
     for (int itr = 0; itr< inf_nr;itr++){
         infv.push_back(infantry());
     }
