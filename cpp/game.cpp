@@ -80,15 +80,9 @@ void game::config(int player_){
             }
         }
     }
-    if (!location0.empty()) {
         board.emplace_back(location0);
-    }
-    if (!location1.empty()) {
         board.emplace_back(location1);
-    }
-    if (!location2.empty()) {
         board.emplace_back(location2);
-    }
 }
 void game::board_fill() {
     std::vector<unit*> fill;
