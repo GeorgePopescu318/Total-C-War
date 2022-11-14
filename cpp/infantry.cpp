@@ -19,6 +19,3 @@ std::ostream& operator<<(std::ostream& os,const infantry& inf){
        <<"; X Location: "<< inf.x<<"; Y Location: "<<inf.y<<"; Player:"<<inf.player <<"; Block chance: " << inf.block_chance;
     return os;
 }
-infantry::~infantry() {
-    delete this;
-}
