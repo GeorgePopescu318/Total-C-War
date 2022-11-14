@@ -99,11 +99,11 @@ void game::board_fill() {
         board.emplace_back(fill);
     }
 }
-void game::start_game(game& gme) {
-    gme.config(1);
+void game::start_game() {
+    this->config(1);
     std::cout<<'\n';
     board_fill();
-    gme.config(2);
+    this->config(2);
     for (const auto &iter:board){
         for(auto jter:iter) {
             if (jter == nullptr) {
