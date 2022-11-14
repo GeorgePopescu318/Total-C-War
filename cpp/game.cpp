@@ -2,6 +2,11 @@
 // Created by George on 11/9/2022.
 //
 #include "../headers/game.hpp"
+#include <memory>
+void game::delete_pointer(unit* const ptr)
+{
+    delete ptr;
+}
 void game::config(int player_){
     int x_ =-1, y_=-1;
     std::cout<<"   [FOR PLAYER "<<player_<<"] \n";
@@ -109,6 +114,12 @@ void game::start_game() {
         }
         std::cout<<"\n";
     }
+    for (auto i:board){
+        for (auto j:i){
+            delete_pointer(j);
+        }
+    }
+
 }
 //std::ostream& operator<<(std::ostream& os,const game& gme){
 //    os <<"   [PLAYER 1]\n"<< gme.p1 <<"   [PLAYER 2]\n"<< gme.p2;

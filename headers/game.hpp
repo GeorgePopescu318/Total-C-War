@@ -20,6 +20,7 @@ public:
     void start_game();
     //friend std::ostream& operator<<(std::ostream& os,const game& gme);
     ~game() = default;
+    void delete_pointer(unit* const ptr );
 };
 
 
