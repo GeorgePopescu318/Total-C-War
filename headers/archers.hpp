@@ -6,7 +6,7 @@
 #define MAIN_CPP_ARCHERS_H
 #include "../headers/unit.hpp"
 class archers : public unit{
-    int miss_chance;
+    int miss_chance = 10;
 public:
     archers() = default;
     archers(int player_, int x_, int y_);

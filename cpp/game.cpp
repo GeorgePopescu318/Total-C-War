@@ -115,7 +115,6 @@ void game::start_game() {
         }
         std::cout<<"\n";
     }
-    //std::cout<<gme;
 }
 //std::ostream& operator<<(std::ostream& os,const game& gme){
 //    os <<"   [PLAYER 1]\n"<< gme.p1 <<"   [PLAYER 2]\n"<< gme.p2;
