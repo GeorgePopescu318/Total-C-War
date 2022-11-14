@@ -7,7 +7,7 @@
 
 #include "../headers/unit.hpp"
 class cavalry : public unit{
-    int charge_bonus = 10;
+    int charge_bonus{};
 public:
     cavalry() =default;
     cavalry(int player_, int x_, int y_);

@@ -1,12 +1,11 @@
 //
 // Created by George on 11/9/2022.
 //
-
 #ifndef MAIN_CPP_ARCHERS_H
 #define MAIN_CPP_ARCHERS_H
 #include "../headers/unit.hpp"
 class archers : public unit{
-    int miss_chance = 10;
+    int miss_chance {};
 public:
     archers() = default;
     archers(int player_, int x_, int y_);
