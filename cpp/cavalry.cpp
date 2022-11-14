@@ -18,5 +18,7 @@ std::ostream& operator<<(std::ostream& os,const cavalry& cav){
        << cav.movement_pts <<"; X Location: "<<cav.x<<"; Y Location: "<<cav.y<< "; Charge bonus: " << cav.charge_bonus;
     return os;
 }
-
+cavalry::~cavalry(){
+    delete this;
+}
 

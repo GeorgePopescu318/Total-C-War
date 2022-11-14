@@ -18,7 +18,7 @@ public:
         int value = 2 + this->player;
         std::cout<<value;
     }
-    ~archers() = default;
+    ~archers()override;
 };
 
 

@@ -42,7 +42,7 @@ public:
     };
     friend std::ostream &operator<<(std::ostream &os, const unit &un);
     //virtual void attack(unit *enemy) = 0;
-    ~unit() = default;
+    virtual ~unit() = default;
 };
 
 

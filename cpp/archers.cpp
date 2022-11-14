@@ -18,4 +18,7 @@ std::ostream& operator<<(std::ostream& os,const archers& arch){
        << arch.movement_pts <<"; X Location: "<<arch.x<<"; Y Location: "<<arch.y<< "; Miss chance: " << arch.miss_chance;
     return os;
 }
+archers::~archers(){
+    delete this;
+}
 
