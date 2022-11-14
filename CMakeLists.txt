@@ -41,7 +41,8 @@ endif()
 ###############################################################################
 
 # NOTE: update executable name in .github/workflows/cmake.yml when changing name here
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp headers/unit.hpp cpp/unit.cpp headers/infantry.hpp cpp/infantry.cpp headers/archers.hpp
+        cpp/archers.cpp headers/cavalry.hpp cpp/cavalry.cpp headers/player.hpp cpp/player.cpp headers/game.hpp cpp/game.cpp)
 
 ###############################################################################
 
