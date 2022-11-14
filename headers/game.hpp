@@ -13,7 +13,7 @@
 class game{
     std::vector< std::vector<unit*> > board;
     int map_size = 4;
-public
+public:
     game() = default;
     void config(int player_);
     void board_fill();
