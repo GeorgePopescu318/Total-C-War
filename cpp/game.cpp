@@ -2,32 +2,122 @@
 // Created by George on 11/9/2022.
 //
 #include "../headers/game.hpp"
-void game::config(){
-    int inf_nr1 = 0,arch_nr1 = 0,cav_nr1 = 0;
-    std::cout<<"   [FOR PLAYER 1] \n";
+void game::config(int player_){
+    int x_ =-1, y_=-1;
+    std::cout<<"   [FOR PLAYER "<<player_<<"] \n";
+    std::vector<unit*> location0;
+    std::vector<unit*> location1;
+    std::vector<unit*> location2;
+    int units_nr = 0;
+    int units_order = 1;
+    location0.reserve(8);
+    location1.reserve(8);
+    location2.reserve(8);
+    board.reserve((map_size+6)*8);
     std::cout<<"The number of infantry units will be:";
-    std::cin>>inf_nr1;
+    std::cin>>units_nr;
+    for (int j = 0; j < 8; ++j){
+        location0.emplace_back(nullptr);
+        location1.emplace_back(nullptr);
+        location2.emplace_back(nullptr);
+    }
+    for (auto i = 0; i < units_nr; i++) {
+        std::cout << "Position of infantry " << units_order++ << " will be:\n";
+        std::cin>>x_>>y_;
+            for (int j = 0 ; j < 8; ++j) {
+                if (y_ == j) {
+                    if (x_ == (map_size+3)*(player_-1)) {
+                        location0.at(j) = new infantry(player_, x_, y_);
+                    }
+                    if (x_ == 1+(map_size+3)*(player_-1)) {
+                        location1.at(j) = new infantry(player_, x_, y_);
+                    }
+                    if (x_ == 2+(map_size+3)*(player_-1)) {
+                        location2.at(j) = new infantry(player_, x_, y_);
+                    }
+                }
+            }
+        }
+        units_nr = 0;
+        units_order = 1;
     std::cout<<"The number of archers units will be:";
-    std::cin>>arch_nr1;
+    std::cin>>units_nr;
+    for (auto i = 0; i < units_nr; i++) {
+        std::cout << "Position of archer " << units_order++ << " will be:\n";
+        std::cin>>x_>>y_;
+        for (int j = 0; j < 8; ++j) {
+            if (y_ == j) {
+                if (x_ == (map_size+3)*(player_-1)) {
+                    location0.at(j) = new archers(player_, x_, y_);
+                }
+                if (x_ == 1+(map_size+3)*(player_-1)) {
+                    location1.at(j) = new archers(player_, x_, y_);
+                }
+                if (x_ == 2+(map_size+3)*(player_-1)) {
+                    location2.at(j) = new archers(player_, x_, y_);
+                }
+            }
+        }
+    }
+    units_nr = 0;
+    units_order = 1;
     std::cout<<"The number of cavalry units will be:";
-    std::cin>>cav_nr1;
-    p1.init(inf_nr1,arch_nr1,cav_nr1);
-    int inf_nr2 = 0,arch_nr2 = 0,cav_nr2 = 0;
-    std::cout<<"\n   [FOR PLAYER 2] \n";
-    std::cout<<"The number of infantry units will be:";
-    std::cin>>inf_nr2;
-    std::cout<<"The number of archers units will be:";
-    std::cin>>arch_nr2;
-    std::cout<<"The number of cavalry units will be:";
-    std::cin>>cav_nr2;
-    p2.init(inf_nr1,arch_nr1,cav_nr1);
+    std::cin>>units_nr;
+    for (auto i = 0; i < units_nr; i++) {
+        std::cout << "Position of cavalry " << units_order++ << " will be:\n";
+        std::cin>>x_>>y_;
+        for (int j = 0; j < 8; ++j) {
+            if (y_ == j) {
+                if (x_ == (map_size+3)*(player_-1)) {
+                    location0.at(j) = new cavalry(player_, x_, y_);
+                }
+                if (x_ == 1+(map_size+3)*(player_-1)) {
+                    location1.at(j) = new cavalry(player_, x_, y_);
+                }
+                if (x_ == 2+(map_size+3)*(player_-1)) {
+                    location2.at(j) = new cavalry(player_, x_, y_);
+                }
+            }
+        }
+    }
+    if (!location0.empty()) {
+        board.emplace_back(location0);
+    }
+    if (!location1.empty()) {
+        board.emplace_back(location1);
+    }
+    if (!location2.empty()) {
+        board.emplace_back(location2);
+    }
 }
-void game::start_game(const game& gme) {
-    config();
-    std::cout<<"\n/| EACH PLAYER'S ARMY /|\n";
-    std::cout<<gme;
+void game::board_fill() {
+    std::vector<unit*> fill;
+    for (int j = 0; j < 8; ++j){
+        fill.emplace_back(nullptr);
+    }
+    for (int i = 0; i < map_size; ++i) {
+        board.emplace_back(fill);
+    }
 }
-std::ostream& operator<<(std::ostream& os,const game& gme){
-    os <<"   [PLAYER 1]\n"<< gme.p1 <<"   [PLAYER 2]\n"<< gme.p2;
-    return os;
+void game::start_game(game& gme) {
+    gme.config(1);
+    std::cout<<'\n';
+    board_fill();
+    gme.config(2);
+    for (const auto &iter:board){
+        for(auto jter:iter) {
+            if (jter == nullptr) {
+                std::cout << "0" << " ";
+            } else {
+                jter->print_value();
+                std::cout << " ";
+            }
+        }
+        std::cout<<"\n";
+    }
+    //std::cout<<gme;
 }
+//std::ostream& operator<<(std::ostream& os,const game& gme){
+//    os <<"   [PLAYER 1]\n"<< gme.p1 <<"   [PLAYER 2]\n"<< gme.p2;
+//    return os;
+//}

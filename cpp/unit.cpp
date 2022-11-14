@@ -5,6 +5,6 @@
 #include "../headers/unit.hpp"
 std::ostream& operator<<(std::ostream& os, const unit& un){
     os <<"Health: " << un.health << ";Damage: " << un.dmg << "; Defence: " << un.defence << "; Range: " << un.range <<"; Movement Points: " << un.movement_pts
-       <<"; X Location: " << un.x << "; Y Location: "<< un.y;
+       <<"; X Location: " << un.x << "; Y Location: "<< un.y << "; Player:"<<un.player;
     return  os;
 }

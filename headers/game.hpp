@@ -5,15 +5,20 @@
 #ifndef MAIN_CPP_GAME_HPP
 #define MAIN_CPP_GAME_HPP
 #include <iostream>
-#include "../headers/player.hpp"
+#include <vector>
+#include "../headers/unit.hpp"
+#include "../headers/infantry.hpp"
+#include "../headers/archers.hpp"
+#include "../headers/cavalry.hpp"
 class game{
-    player p1,p2;
-    // std::vector<std::vector<int> > board;
+    std::vector< std::vector<unit*> > board;
+    int map_size = 4;
 public:
     game() = default;
-    void config();
-    void start_game(const game& gme);
-    friend std::ostream& operator<<(std::ostream& os,const game& gme);
+    void config(int player_);
+    void board_fill();
+    void start_game(game& gme);
+    //friend std::ostream& operator<<(std::ostream& os,const game& gme);
     ~game() = default;
 };
 
