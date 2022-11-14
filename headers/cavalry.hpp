@@ -20,7 +20,7 @@ public:
         int value = 4+ this->player;
         std::cout<<value;
     }
-    virtual ~cavalry();
+    ~cavalry() = default;
 
 };
 

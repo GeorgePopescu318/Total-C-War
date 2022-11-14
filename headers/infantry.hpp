@@ -20,7 +20,7 @@ public:
         int value = this->player;
         std::cout<<value;
     }
-    ~infantry() override;
+    ~infantry()=default;
 //    virtual void attack(unit *enemy) override{
 //        this->dmg
 //    }
