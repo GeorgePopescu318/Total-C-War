@@ -139,7 +139,7 @@ int game::print_option(int player_){
 void game::end_game(int player_){
     for (const auto& i:board){
         for (auto j:i){
-            delete_pointer(j);
+            delete j;
         }
     }
     std::cout<<"Congrats Player: "<<player_;
