@@ -20,6 +20,12 @@ public:
     void start_game();
     //friend std::ostream& operator<<(std::ostream& os,const game& gme);
     ~game() = default;
+    void mid_game();
+    void print_board();
+    int print_option(int player_);
+    void move_unit(int x_init, int y_init, int x_dest, int y_dest);
+    void run();
+    void end_game(int player_);
     void delete_pointer(unit* const ptr );
 };
 
