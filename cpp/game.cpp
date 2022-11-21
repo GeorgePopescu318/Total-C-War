@@ -5,10 +5,6 @@
 #include <random>
 #include <Random.hpp>
 using Random = effolkronium::random_static;
-void game::delete_pointer(unit* const ptr)
-{
-    delete ptr;
-}
 void game::config(int player_){
     int x_ =-1, y_=-1;
     std::cout<<"   [FOR PLAYER "<<player_<<"] \n";
