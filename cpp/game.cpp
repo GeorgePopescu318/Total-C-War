@@ -3,7 +3,7 @@
 //
 #include "../headers/game.hpp"
 #include <random>
-#include "../headers/Random.hpp"
+#include <Random.hpp>
 using Random = effolkronium::random_static;
 void game::delete_pointer(unit* const ptr)
 {
