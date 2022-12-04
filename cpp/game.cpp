@@ -57,7 +57,7 @@ void game::print_board(){
 }
 void game::start_game() {
     std::cout<<"   [FOR PLAYER 1] \n";
-    std::cout<<"You can set units in rows "<<0+(map_size+3)*(1-1)<<"-"<<2+(map_size+3)*(1-1)<<"\n";
+    std::cout<<"You can set units in rows "<<0<<"-"<<2<<"\n";
     location0.reserve(8);
     location1.reserve(8);
     location2.reserve(8);
@@ -76,7 +76,7 @@ void game::start_game() {
     std::cout<<'\n';
     board_fill();
     std::cout<<"   [FOR PLAYER 2] \n";
-    std::cout<<"You can set units in rows "<<0+(map_size+3)*(2-1)<<"-"<<2+(map_size+3)*(2-1)<<"\n";
+    std::cout<<"You can set units in rows "<<0+(map_size+3)<<"-"<<2+(map_size+3)<<"\n";
         fill_n(location0.begin(),8,nullptr);
         fill_n(location1.begin(),8,nullptr);
         fill_n(location2.begin(),8,nullptr);
