@@ -5,89 +5,33 @@
 #include <random>
 #include <Random.hpp>
 using Random = effolkronium::random_static;
-void game::config(int player_){
+std::string game::cut(std::string s){
+    s.erase(std::remove_if(s.begin(), s.end(), ::isdigit), s.end());
+    return s;
+}
+template <class T> void game::config(int player_){
     int x_ =-1, y_=-1;
-    std::cout<<"   [FOR PLAYER "<<player_<<"] \n";
-    std::cout<<"You can set units in rows "<<0+(map_size+3)*(player_-1)<<"-"<<2+(map_size+3)*(player_-1)<<"\n";
-    std::vector<unit*> location0;
-    std::vector<unit*> location1;
-    std::vector<unit*> location2;
     int units_nr = 0;
     int units_order = 1;
-    location0.reserve(8);
-    location1.reserve(8);
-    location2.reserve(8);
-    board.reserve((map_size+6)*8);
-    std::cout<<"The number of infantry units will be:";
+    std::cout<<"The number of "<<cut(typeid(T).name())<<" units will be:";
     std::cin>>units_nr;
-    for (int j = 0; j < 8; ++j){
-        location0.emplace_back(nullptr);
-        location1.emplace_back(nullptr);
-        location2.emplace_back(nullptr);
-    }
     for (auto i = 0; i < units_nr; i++) {
         std::cout << "Position of infantry " << units_order++ << " will be:\n";
         std::cin>>x_>>y_;
             for (int j = 0 ; j < 8; ++j) {
                 if (y_ == j) {
                     if (x_ == (map_size+3)*(player_-1)) {
-                        location0.at(j) = new infantry(player_, x_, y_);
+                        location0.at(j) = new T(player_, x_, y_);
                     }
                     if (x_ == 1+(map_size+3)*(player_-1)) {
-                        location1.at(j) = new infantry(player_, x_, y_);
+                        location1.at(j) = new T(player_, x_, y_);
                     }
                     if (x_ == 2+(map_size+3)*(player_-1)) {
-                        location2.at(j) = new infantry(player_, x_, y_);
+                        location2.at(j) = new T(player_, x_, y_);
                     }
                 }
             }
         }
-        units_nr = 0;
-        units_order = 1;
-    std::cout<<"The number of archers units will be:";
-    std::cin>>units_nr;
-    for (auto i = 0; i < units_nr; i++) {
-        std::cout << "Position of archer " << units_order++ << " will be:\n";
-        std::cin>>x_>>y_;
-        for (int j = 0; j < 8; ++j) {
-            if (y_ == j) {
-                if (x_ == (map_size+3)*(player_-1)) {
-                    location0.at(j) = new archers(player_, x_, y_);
-                }
-                if (x_ == 1+(map_size+3)*(player_-1)) {
-                    location1.at(j) = new archers(player_, x_, y_);
-                }
-                if (x_ == 2+(map_size+3)*(player_-1)) {
-                    location2.at(j) = new archers(player_, x_, y_);
-                }
-            }
-        }
-    }
-    units_nr = 0;
-    units_order = 1;
-    std::cout<<"The number of cavalry units will be:";
-    std::cin>>units_nr;
-    for (auto i = 0; i < units_nr; i++) {
-        std::cout << "Position of cavalry " << units_order++ << " will be:\n";
-        std::cin>>x_>>y_;
-        for (int j = 0; j < 8; ++j) {
-            if (y_ == j) {
-                if (x_ == (map_size+3)*(player_-1)) {
-                    location0.at(j) = new cavalry(player_, x_, y_);
-                }
-                if (x_ == 1+(map_size+3)*(player_-1)) {
-                    location1.at(j) = new cavalry(player_, x_, y_);
-                }
-                if (x_ == 2+(map_size+3)*(player_-1)) {
-                    location2.at(j) = new cavalry(player_, x_, y_);
-                }
-            }
-        }
-    }
-    std::cout<<"\n";
-        board.emplace_back(location0);
-        board.emplace_back(location1);
-        board.emplace_back(location2);
 }
 void game::board_fill() {
     std::vector<unit*> fill;
@@ -112,10 +56,36 @@ void game::print_board(){
     }
 }
 void game::start_game() {
-    this->config(1);
+    std::cout<<"   [FOR PLAYER 1] \n";
+    std::cout<<"You can set units in rows "<<0+(map_size+3)*(1-1)<<"-"<<2+(map_size+3)*(1-1)<<"\n";
+    location0.reserve(8);
+    location1.reserve(8);
+    location2.reserve(8);
+    for (int j = 0; j < 8; ++j){
+        location0.emplace_back(nullptr);
+        location1.emplace_back(nullptr);
+        location2.emplace_back(nullptr);
+    }
+    board.reserve((map_size+6)*8);
+    this->config<infantry>(1);
+    this->config<archers>(1);
+    this->config<cavalry>(1);
+    board.emplace_back(location0);
+    board.emplace_back(location1);
+    board.emplace_back(location2);
     std::cout<<'\n';
     board_fill();
-    this->config(2);
+    std::cout<<"   [FOR PLAYER 2] \n";
+    std::cout<<"You can set units in rows "<<0+(map_size+3)*(2-1)<<"-"<<2+(map_size+3)*(2-1)<<"\n";
+        fill_n(location0.begin(),8,nullptr);
+        fill_n(location1.begin(),8,nullptr);
+        fill_n(location2.begin(),8,nullptr);
+    this->config<infantry>(2);
+    this->config<archers>(2);
+    this->config<cavalry>(2);
+    board.emplace_back(location0);
+    board.emplace_back(location1);
+    board.emplace_back(location2);
     print_board();
 }
 void game::move_unit(int x_init, int y_init, int x_dest, int y_dest){
