@@ -121,7 +121,7 @@ void game::mid_game(){
             break;
         }
         while (moves <= 3) {
-            std::cout<<"You have "<< moves <<" moves\n";
+            std::cout<<"You have "<< 3 - moves <<" moves\n";
             switch (print_option(turn)) {
                 case 1: {
                     int x_init, y_init, x_dest, y_dest;
