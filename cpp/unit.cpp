@@ -8,3 +8,6 @@ std::ostream& operator<<(std::ostream& os, const unit& un){
        <<"; X Location: " << un.x << "; Y Location: "<< un.y << "; Player:"<<un.player;
     return  os;
 }
+int unit::view_player() {
+    return this->player;
+}

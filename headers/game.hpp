@@ -15,13 +15,15 @@ class game{
     std::vector<unit*> location0;
     std::vector<unit*> location1;
     std::vector<unit*> location2;
-    int map_size = 4;
+    int player1_units_nr;
+    int player2_units_nr;
+    int map_size;
 public:
-    game() = default;
+    game();
     void run();
-    ~game() = default;
+    ~game();
 private:
-    template <class T> void config(int player_);
+    template <class T> int config(int player_);
     void board_fill();
     void start_game();
     //friend std::ostream& operator<<(std::ostream& os,const game& gme);

@@ -43,6 +43,7 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const unit &un);
     //virtual void attack(unit *enemy) = 0;
     virtual ~unit() = default;
+    int view_player ();
 };
 
 
