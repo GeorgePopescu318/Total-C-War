@@ -5,7 +5,6 @@
 #ifndef MAIN_CPP_UNIT_H
 #define MAIN_CPP_UNIT_H
 #include <iostream>
-
 class unit {
 protected:
     int health = 0;
@@ -18,7 +17,6 @@ protected:
     int player = -1;
 public:
     unit() = default;
-
     unit(const int health_, const int dmg_, const int defence_, const int range_, const int movement_pts_, const int x_,
          const int y_, const int player_) :
             health{health_}, dmg{dmg_}, defence{defence_}, range{range_}, movement_pts{movement_pts_}, x{x_}, y{y_} , player{player_}{}
@@ -40,10 +38,15 @@ public:
     virtual void print_value(){
         std::cout<< -1;
     };
+    int getHealth() const;
+    int getPlayer() const;
+    int getMovementPts() const;
+    std::string get_position() const;
     friend std::ostream &operator<<(std::ostream &os, const unit &un);
-    //virtual void attack(unit *enemy) = 0;
+    virtual int attack(const unit& other) const = 0;
+    virtual void defend(const unit &enemy) = 0;
+    int distance_between(const unit &other) const;
     virtual ~unit() = default;
-    int view_player ();
 };
 
 

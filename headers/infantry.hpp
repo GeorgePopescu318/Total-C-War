@@ -5,7 +5,9 @@
 #ifndef MAIN_CPP_INFANTRY_H
 #define MAIN_CPP_INFANTRY_H
 #include "../headers/unit.hpp"
-
+#include "../ext/Random.hpp"
+#include <random>
+#include <Random.hpp>
 class infantry : public unit{
     int block_chance{};
 public:
@@ -20,11 +22,9 @@ public:
         int value = this->player;
         std::cout<<value;
     }
-    ~infantry()=default;
-//    virtual void attack(unit *enemy) override{
-//        this->dmg
-//    }
-
+    ~infantry() override =default;
+   int attack(const unit& other)const override;
+   void defend(const unit& enemy) override;
 };
 
 

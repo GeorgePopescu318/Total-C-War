@@ -20,6 +20,8 @@ public:
         int value = 4+ this->player;
         std::cout<<value;
     }
+    int attack(const unit& other)const override;
+    virtual void defend(const unit& enemy) override;
     ~cavalry() = default;
 
 };

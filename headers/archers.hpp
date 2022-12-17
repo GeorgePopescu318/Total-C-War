@@ -18,6 +18,8 @@ public:
         int value = 2 + this->player;
         std::cout<<value;
     }
+    int attack(const unit& other)const override;
+    void defend(const unit& enemy) override;
     ~archers()=default;
 };
 

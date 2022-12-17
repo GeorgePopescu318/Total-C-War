@@ -6,33 +6,36 @@
 #define MAIN_CPP_GAME_HPP
 #include <iostream>
 #include <vector>
+#include "../headers/player.hpp"
 #include "../headers/unit.hpp"
 #include "../headers/infantry.hpp"
 #include "../headers/archers.hpp"
 #include "../headers/cavalry.hpp"
 class game{
-    std::vector< std::vector<unit*> > board;
-    std::vector<unit*> location0;
-    std::vector<unit*> location1;
-    std::vector<unit*> location2;
-    int player1_units_nr;
-    int player2_units_nr;
+    std::vector< std::vector<std::shared_ptr<unit>> > board;
+    std::vector<std::shared_ptr<unit>> location0;
+    std::vector<std::shared_ptr<unit>> location1;
+    std::vector<std::shared_ptr<unit>> location2;
     int map_size;
+    player p1;
+    player p2;
 public:
     game();
     void run();
-    ~game();
+    ~game() = default;
 private:
-    template <class T> int config(int player_);
+    template <class T> int config(player& ply);
     void board_fill();
     void start_game();
     //friend std::ostream& operator<<(std::ostream& os,const game& gme);
     void mid_game();
     void print_board();
-    int print_option(int player_);
+    static int print_option(const player* ply);
     void move_unit(int x_init, int y_init, int x_dest, int y_dest);
-    void end_game(int player_);
-    std::string cut(std::string s);
+    static void end_game(int player_);
+    static std::string cut(std::string s);
+    static std::string get_name(int player_);
+    void init_player(player ply, int id);
 };
 
 
