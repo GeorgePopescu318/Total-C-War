@@ -214,6 +214,7 @@ std::string game::get_name(int player_) {
 void game::run(){
     start_game();
     mid_game();
+
 }
 game::game(){
     map_size = 4;
