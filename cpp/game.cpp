@@ -125,8 +125,14 @@ void game::end_game(int player_){
 }
 void game::mid_game() {
     int winner = 0;
-    std::unique_ptr<player> turn = std::make_unique<player>(Random::get({p1, p2}));
-    player* other = turn.release();
+    auto first = (Random::get({1, 2}));
+    player *turn;
+    player *other;
+    turn = &p1;
+    other = &p2;
+    if (first == 2){
+        std::swap(p1,p2);
+    }
     int moves = 3;
     while (true) {
 //        if (player1_units_nr == 0 && player2_units_nr == 0){
@@ -147,7 +153,7 @@ void game::mid_game() {
                     int x_init, y_init, x_dest, y_dest;
                     std::cout << "Enter the initial position:";
                     std::cin >> x_init >> y_init;
-                    if (board.at(x_init).at(y_init)->getPlayer() != turn) {
+                    if (board.at(x_init).at(y_init)->getPlayer() != turn->getId()) {
                         std::cout << "error not your unit\n";
                         break;
                     }
@@ -177,7 +183,7 @@ void game::mid_game() {
                     break;
                 }
                 case -1: {
-                    if (turn == 1)
+                    if (turn->getId() == 1)
                         winner = 2;
                     else
                         winner = 1;
@@ -192,7 +198,7 @@ void game::mid_game() {
             if (winner != 0) {
                 end_game(winner);
             }
-           // std::swap(turn,other);
+            std::swap(turn,other);
             moves = 3;
             print_board();
         }
