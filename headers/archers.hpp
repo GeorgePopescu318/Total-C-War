@@ -6,6 +6,8 @@
 #include "../headers/unit.hpp"
 class archers : public unit{
     int miss_chance {};
+    unit* enemy;
+    bool in_range;
 public:
     archers() = default;
     archers(int player_, int x_, int y_);
@@ -18,6 +20,9 @@ public:
         int value = 2 + this->player;
         std::cout<<value;
     }
+    void set_enemy();
+    void check_range();
+    int attack_ranged();
     int attack(const unit& other)const override;
     void defend(const unit& enemy) override;
     ~archers()=default;

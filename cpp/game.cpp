@@ -2,6 +2,7 @@
 // Created by George on 11/9/2022.
 //
 #include "../headers/game.hpp"
+#include "../headers/eroare.hpp"
 #include <random>
 #include <cmath>
 #include <Random.hpp>
@@ -99,6 +100,14 @@ void game::start_game() {
         fill_n(location1.begin(),8,nullptr);
         fill_n(location2.begin(),8,nullptr);
     init_player(p2,2);
+        try {
+            if (p1.getName() == p1.getName()) {
+                throw name_error("Can't use the name " + p1.getName() + " for each player!")
+            }
+            catch (name_erorr &err){
+                std::cout<<err.what()<<"\n";
+            }
+        }
     std::cout<<"\n";
     print_board();
 }
@@ -120,9 +129,6 @@ int game::print_option(){
     std::cin>>option;
     return option;
 }
-void game::end_game(int player_){
-    std::cout<<"Congrats Player: "<<player_;
-}
 void game::mid_game() {
     int winner = 0;
     auto first = (Random::get({1, 2}));
@@ -135,17 +141,20 @@ void game::mid_game() {
     }
     int moves = 3;
     while (true) {
-//        if (player1_units_nr == 0 && player2_units_nr == 0){
-//            std::cout<<"Draw";
-//            break;
-//        }if (player1_units_nr == 0){
-//            end_game(2);
-//            break;
-//        }
-//        if (player2_units_nr == 0){
-//            end_game(1);
-//            break;
-//        }
+        if (turn->zero_units()){
+            if(other->zero_units()) {
+                throw end_game("Draw!");
+                break;
+            }
+            throw end_game("Congrats "+other->getName()+"!");
+            break;
+        }
+        else{
+            if (other->zero_units()) {
+                throw end_game("Congrats "+turn->getName()+"!");
+                break;
+            }
+        }
         while (moves  > 0) {
             std::cout << "You have " << moves << " moves\n";
             int balance_of_power = turn->view_units() - other->view_units();
@@ -186,10 +195,7 @@ void game::mid_game() {
                     break;
                 }
                 case -1: {
-                    if (turn->getId() == 1)
-                        winner = 2;
-                    else
-                        winner = 1;
+                    throw end_game("Congrats "+ other->getName());
                     moves += 5;
                     break;
                 }
@@ -197,15 +203,18 @@ void game::mid_game() {
                     moves--;
                     break;
                 }
-            }
-            if (winner != 0) {
-                end_game(winner);
+
             }
            // check_for_attack();
             std::swap(turn,other);
             moves = 3;
             print_board();
             std::cout<<"\n";
+        }
+        try{
+            catch(end_game &err){
+                std::cout<<err.what<<"\n";
+            }
         }
     }
 }
