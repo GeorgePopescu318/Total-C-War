@@ -74,7 +74,7 @@ void game::print_board(){
 }
 //// a1 a2 a3 a4 a5
 ////  0  1  2  3  4
-void game::init_player(player ply, int id) {
+void game::init_player(player& ply, int id) {
     ply.set_id_name(id, get_name(id));
     std::cout<<"   [FOR "<<ply<<"] \n";
     std::cout<<"You can set units in rows "<<0+(map_size+3)*(id-1)<<"-"<<2+(map_size+3)*(id-1)<<"\n";
@@ -114,9 +114,9 @@ void game::move_unit(int x_init, int y_init, int x_dest, int y_dest) {
         }
     }
 }
-int game::print_option(const player* ply){
+int game::print_option(){
     int option = 0;
-    std::cout<<"The options of player "<<ply<<":\nMove unit [1]\nNothing [0]\nSurrender [-1]\n";
+
     std::cin>>option;
     return option;
 }
@@ -148,7 +148,10 @@ void game::mid_game() {
 //        }
         while (moves  > 0) {
             std::cout << "You have " << moves << " moves\n";
-            switch (print_option(turn)) {
+            int balance_of_power = turn->view_units() - other->view_units();
+            std::cout<<"The balance of power is: "<<balance_of_power<<"\n";
+            std::cout<<"The options of  "<<*turn<<":\nMove unit [1]\nNothing [0]\nSurrender [-1]\n";
+            switch (print_option()) {
                 case 1: {
                     int x_init, y_init, x_dest, y_dest;
                     std::cout << "Enter the initial position:";
@@ -163,10 +166,10 @@ void game::mid_game() {
                     }
                     std::cout << "Enter the destination position:";
                     std::cin >> x_dest >> y_dest;
-                    if (abs((x_init + y_init) - (x_dest + y_dest)) > board.at(x_init).at(y_init)->getMovementPts()) {
-                        std::cout << "error distance too long\n";
-                        break;
-                    }
+//                    if (abs((x_init + y_init) - (x_dest + y_dest)) > board.at(x_init).at(y_init)->getMovementPts()) {
+//                        std::cout << "error distance too long\n";
+//                        break;
+//                    }
                     if (board.at(x_dest).at(y_dest) != nullptr) {
                         move_unit(x_init, y_init, x_dest, y_dest);
                         moves -= 2;
@@ -198,9 +201,11 @@ void game::mid_game() {
             if (winner != 0) {
                 end_game(winner);
             }
+           // check_for_attack();
             std::swap(turn,other);
             moves = 3;
             print_board();
+            std::cout<<"\n";
         }
     }
 }
@@ -227,4 +232,16 @@ game::game(){
         location2.emplace_back(nullptr);
     }
     board.reserve((map_size+6)*8);
+}
+
+void game::check_for_attack() {
+    for (unsigned long long iter = 0; iter < board.size();++iter) {
+        for (unsigned long long jter = 0; jter < 8; ++jter) {
+            if (board.at(iter).at(jter) != nullptr){
+                if (board.at(iter+1).at(jter) != nullptr) {
+                    board.at(iter).at(jter)->defend(reinterpret_cast<const unit &>(board.at(iter + 1).at(jter)));
+                }
+            }
+        }
+    }
 }

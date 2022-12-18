@@ -19,6 +19,7 @@ class game{
     int map_size;
     player p1;
     player p2;
+//    static int balance_of_power;
 public:
     game();
     void run();
@@ -30,13 +31,14 @@ private:
     //friend std::ostream& operator<<(std::ostream& os,const game& gme);
     void mid_game();
     void print_board();
-    static int print_option(const player* ply);
+    static int print_option();
     void move_unit(int x_init, int y_init, int x_dest, int y_dest);
     static void end_game(int player_);
     static std::string cut(std::string s);
     static std::string get_name(int player_);
-    void init_player(player ply, int id);
+    void init_player(player& ply, int id);
+    void check_for_attack();
 };
 
-
+//int game::balance_of_power = 0;
 #endif //MAIN_CPP_GAME_HPP

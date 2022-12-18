@@ -34,9 +34,12 @@ int player::getId() const {
     return id;
 }
 
-void player::view_units() {
+int player::view_units() {
+    int total_health = 0;
+    std::cout<<"For "<<this->name<<" ";
     for (unsigned long long i = 0; i < unitsv.size(); ++i){
         if (unitsv.at(i)->getHealth() != 0) {
+            total_health+= unitsv.at(i)->getHealth();
             std::cout << typeid(i).name() << " at " << unitsv.at(i)->get_position() << " has health:" << unitsv.at(i)->getHealth()<<'\n';
         }
         else{
@@ -44,10 +47,16 @@ void player::view_units() {
             unitsv.erase(unitsv.begin() + i);
         }
     }
+    std::cout<<"\n";
+    return total_health;
 }
 
 void player::zero_units() {
 //    if (unitsv.empty())
 //        ;
         //throw
+}
+
+const std::string &player::getName() const {
+    return name;
 }

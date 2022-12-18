@@ -24,9 +24,10 @@ public:
     bool is_0(const std::shared_ptr<unit>& other){
         return other->getHealth() == 0;
     }
-    void view_units();
+    int view_units();
     int getId() const;
     void zero_units();
+    const std::string &getName() const;
     ~player() = default;
 
 };
