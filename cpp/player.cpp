@@ -50,11 +50,13 @@ int player::view_units() {
     std::cout<<"\n";
     return total_health;
 }
-
-void player::zero_units() {
-//    if (unitsv.empty())
-//        ;
-        //throw
+void view_archers(){
+    for (int i = f1; i<f3;i++){
+        check_range(unitsv.at(i));
+    }
+}
+bool player::zero_units() {
+    return unitsv.empty();
 }
 
 const std::string &player::getName() const {

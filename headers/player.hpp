@@ -25,8 +25,9 @@ public:
         return other->getHealth() == 0;
     }
     int view_units();
+    void view_archers();
     int getId() const;
-    void zero_units();
+    bool zero_units();
     const std::string &getName() const;
     ~player() = default;
 
