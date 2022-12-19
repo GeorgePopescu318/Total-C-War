@@ -45,6 +45,7 @@ public:
     virtual int attack(const unit& other) const = 0;
     virtual void defend(const unit &enemy) = 0;
     int distance_between(const unit &other) const;
+    virtual unit* clone() const = 0;
     virtual ~unit() = default;
 };
 

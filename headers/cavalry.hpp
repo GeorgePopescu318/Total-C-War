@@ -21,6 +21,7 @@ public:
         std::cout<<value;
     }
     int attack(const unit& other)const override;
+    unit* clone() const override{ return new cavalry(*this);}
     virtual void defend(const unit& enemy) override;
     ~cavalry() = default;
 

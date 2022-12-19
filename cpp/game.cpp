@@ -201,7 +201,7 @@ void game::mid_game() {
                     break;
                 }
                 case 0: {
-                    moves -= 5;
+                    moves-=5;
                     break;
                 }
                 case -1: {

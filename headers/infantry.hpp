@@ -22,6 +22,7 @@ public:
         int value = this->player;
         std::cout<<value;
     }
+    unit* clone() const override{ return new infantry(*this);}
     ~infantry() override =default;
    int attack(const unit& other)const override;
    void defend(const unit& enemy) override;
