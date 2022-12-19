@@ -101,16 +101,11 @@ void game::start_game() {
         fill_n(location1.begin(),8,nullptr);
         fill_n(location2.begin(),8,nullptr);
     init_player(p2,2);
-        try {
-            if (p1.getName() == p1.getName()) {
-                throw name_error("Can't use the name " + p1.getName() + " for each player!")
-            }
-            catch (name_erorr &err){
-                std::cout<<err.what()<<"\n";
-            }
-        }
     std::cout<<"\n";
     print_board();
+            if (p1.getName() == p2.getName()) {
+                throw name_error("Can't use the name " + p1.getName() + " for each player!");
+            }
 }
 void game::move_unit(int x_init, int y_init, int x_dest, int y_dest) {
     if (board.at(x_init).at(y_init) != nullptr) {
@@ -131,7 +126,6 @@ int game::print_option(){
     return option;
 }
 void game::mid_game() {
-    int winner = 0;
     auto first = (Random::get({1, 2}));
     player *turn;
     player *other;
@@ -145,22 +139,19 @@ void game::mid_game() {
         if (turn->zero_units()){
             if(other->zero_units()) {
                 throw end_game("Draw!");
-                break;
             }
             throw end_game("Congrats "+other->getName()+"!");
-            break;
         }
         else{
             if (other->zero_units()) {
                 throw end_game("Congrats "+turn->getName()+"!");
-                break;
             }
         }
         while (moves  > 0) {
             std::cout << "You have " << moves << " moves\n";
             int balance_of_power = turn->view_units() - other->view_units();
             std::cout<<"The balance of power is: "<<balance_of_power<<"\n";
-            std::cout<<"The options of  "<<*turn<<":\nMove unit [1]\nNothing [0]\nSurrender [-1]\n";
+            std::cout<<"The options of  "<<*turn<<":\nMove unit [1]\nNothing [0]\nSurrender [-1]\nArcher Target [2]";
             switch (print_option()) {
                 case 1: {
                     int x_init, y_init, x_dest, y_dest;
@@ -176,10 +167,10 @@ void game::mid_game() {
                     }
                     std::cout << "Enter the destination position:";
                     std::cin >> x_dest >> y_dest;
-//                    if (abs((x_init + y_init) - (x_dest + y_dest)) > board.at(x_init).at(y_init)->getMovementPts()) {
-//                        std::cout << "error distance too long\n";
-//                        break;
-//                    }
+                    if (abs((x_init + y_init) - (x_dest + y_dest)) > board.at(x_init).at(y_init)->getMovementPts()) {
+                        std::cout << "error distance too long\n";
+                        break;
+                    }
                     if (board.at(x_dest).at(y_dest) != nullptr) {
                         move_unit(x_init, y_init, x_dest, y_dest);
                         moves -= 2;
@@ -191,14 +182,30 @@ void game::mid_game() {
                     print_board();
                     break;
                 }
+                case 2:{
+                    int x_init, y_init, x_dest, y_dest;
+                    std::cout<<"Enter the archer's position: ";
+                    std::cin>>x_init>>y_init;
+                    std::cout<<"\n";
+                    std::cout<<"Enter the target's position: ";
+                    std::cin>>x_dest>>y_dest;
+                    std::cout<<"\n";
+                    std::shared_ptr selected = std::dynamic_pointer_cast<archers>(board.at(x_init).at(y_init));
+                    if (selected == nullptr){
+                        std::cout<<"Error insert another unit, those are not archers";
+                        break;
+                    }
+                    else{
+                        selected->set_enemy(board.at(x_dest).at(y_dest));
+                    }
+                    break;
+                }
                 case 0: {
                     moves -= 5;
                     break;
                 }
                 case -1: {
                     throw end_game("Congrats "+ other->getName());
-                    moves += 5;
-                    break;
                 }
                 default: {
                     moves--;
@@ -206,16 +213,12 @@ void game::mid_game() {
                 }
 
             }
-           // check_for_attack();
+            check_for_attack();
+            turn->view_archers();
             std::swap(turn,other);
             moves = 3;
             print_board();
             std::cout<<"\n";
-        }
-        try{
-            catch(end_game &err){
-                std::cout<<err.what<<"\n";
-            }
         }
     }
 }

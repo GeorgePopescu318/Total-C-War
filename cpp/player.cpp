@@ -4,6 +4,8 @@
 
 #include <utility>
 #include "../headers/player.hpp"
+#include "../headers/archers.hpp"
+
 player::player(): units_nr(0), id(0) ,f1(0),f2(0),f3(0){
     unitsv.reserve(8);
     for (int j = 0; j < 8; ++j){
@@ -50,9 +52,9 @@ int player::view_units() {
     std::cout<<"\n";
     return total_health;
 }
-void view_archers(){
+void player::view_archers(){
     for (int i = f1; i<f3;i++){
-        check_range(unitsv.at(i));
+        std::dynamic_pointer_cast<archers>(unitsv.at(i))->archers::check_range();
     }
 }
 bool player::zero_units() {

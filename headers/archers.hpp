@@ -3,10 +3,12 @@
 //
 #ifndef MAIN_CPP_ARCHERS_H
 #define MAIN_CPP_ARCHERS_H
+
+#include <memory>
 #include "../headers/unit.hpp"
 class archers : public unit{
     int miss_chance {};
-    unit* enemy;
+    std::shared_ptr<unit> enemy;
     bool in_range;
 public:
     archers() = default;
@@ -20,11 +22,12 @@ public:
         int value = 2 + this->player;
         std::cout<<value;
     }
-    void set_enemy();
+    void set_enemy(const std::shared_ptr<unit>& other);
     void check_range();
     int attack_ranged();
     int attack(const unit& other)const override;
     void defend(const unit& enemy) override;
+    std::shared_ptr<unit> getEnemy() const;
     ~archers()=default;
 };
 

@@ -33,7 +33,6 @@ private:
     void print_board();
     static int print_option();
     void move_unit(int x_init, int y_init, int x_dest, int y_dest);
-    static void end_game(int player_);
     static std::string cut(std::string s);
     static std::string get_name(int player_);
     void init_player(player& ply, int id);

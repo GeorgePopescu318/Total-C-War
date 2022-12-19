@@ -4,6 +4,8 @@
 #include "../headers/archers.hpp"
 #include "../headers/infantry.hpp"
 #include <random>
+#include <memory>
+
 using Random = effolkronium::random_static;
 archers::archers(int player_, int x_, int y_) {
     health = 30;
@@ -40,23 +42,27 @@ int archers::attack(const unit& other) const {
         return 0;
     }
 }
-void set_enemy(const unit& other){
-    if(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this.range){
+void archers::set_enemy(const std::shared_ptr<unit>& other){
+    if(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this->range){
         in_range = true;
-        enemy = &other;
+        enemy = other;
     }
 }
-void check_range(){
-    if!(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this.range){
+void archers::check_range() {
+    if(!(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this->range)){
         in_range = false;
         enemy = nullptr;
     }
-    if (in_range == true){
-        enemy.defend(*this);
+    if (in_range){
+        enemy->defend(*this);
     }
 }
-void archers::defend(const unit &enemy) {
+void archers::defend(const unit &opponent) {
     auto val = Random::get(70.0, 100.0);
-    this->health -=enemy.attack(*this)*(100.0/(100+this->defence))*(val/100);
+    this->health -=opponent.attack(*this)*(100.0/(100+this->defence))*(val/100);
+}
+
+std::shared_ptr<unit> archers::getEnemy() const {
+    return enemy;
 }
 
