@@ -6,7 +6,7 @@
 #include "../headers/player.hpp"
 #include "../headers/archers.hpp"
 
-player::player(): units_nr(0), id(0) ,f1(0),f2(0),f3(0){
+player::player(): id(0) ,f1(0),f2(0),f3(0){
     unitsv.reserve(8);
     for (int j = 0; j < 8; ++j){
         unitsv.emplace_back(nullptr);
