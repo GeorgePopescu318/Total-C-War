@@ -42,6 +42,7 @@ template <typename T> int game::config(player& ply){
             }
         }
     return units_nr;
+
 }
 void game::board_fill() {
     std::vector<std::shared_ptr<unit>> fill;
