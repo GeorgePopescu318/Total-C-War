@@ -10,7 +10,6 @@
 #include "unit.hpp"
 class player{
     std::vector<std::shared_ptr<unit>> unitsv;
-    int units_nr;
     int id;
     int f1,f2,f3;
     std::string name;
