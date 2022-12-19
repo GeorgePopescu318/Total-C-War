@@ -41,7 +41,6 @@ public:
     int getHealth() const;
     int getPlayer() const;
     int getMovementPts() const;
-    std::string get_position() const;
     friend std::ostream &operator<<(std::ostream &os, const unit &un);
     virtual int attack(const unit& other) const = 0;
     virtual void defend(const unit &enemy) = 0;

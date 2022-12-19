@@ -5,8 +5,7 @@
 #include "../headers/unit.hpp"
 #include <cmath>
 std::ostream& operator<<(std::ostream& os, const unit& un){
-    os <<"Health: " << un.health << ";Damage: " << un.dmg << "; Defence: " << un.defence << "; Range: " << un.range <<"; Movement Points: " << un.movement_pts
-       <<"; X Location: " << un.x << "; Y Location: "<< un.y << "; Player:"<<un.player;
+    os <<un.x<<" "<<un.y;
     return  os;
 }
 
@@ -24,8 +23,4 @@ int unit::getMovementPts() const {
 
 int unit::distance_between(const unit &other) const {
     return abs(this->x + this->y - other.x - other.y);
-}
-
-std::string unit::get_position() const {
-     return "at " + std::to_string(this->x) + " " +std::to_string(this->y);
 }

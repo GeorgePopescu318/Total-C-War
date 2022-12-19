@@ -42,7 +42,7 @@ int player::view_units() {
     for (unsigned long long i = 0; i < unitsv.size(); ++i){
         if (unitsv.at(i)->getHealth() != 0) {
             total_health+= unitsv.at(i)->getHealth();
-            std::cout << typeid(i).name() << " at " << unitsv.at(i)->get_position() << " has health:" << unitsv.at(i)->getHealth()<<'\n';
+            std::cout << typeid(i).name() << " at " << unitsv.at(i)<< " has health:" << unitsv.at(i)->getHealth()<<'\n';
         }
         else{
             unitsv.at(i) = nullptr;
