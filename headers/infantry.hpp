@@ -5,7 +5,6 @@
 #ifndef MAIN_CPP_INFANTRY_H
 #define MAIN_CPP_INFANTRY_H
 #include "../headers/unit.hpp"
-#include "../ext/Random.hpp"
 #include <random>
 #include <Random.hpp>
 class infantry : public unit{
