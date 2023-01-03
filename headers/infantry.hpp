@@ -8,7 +8,7 @@
 #include <random>
 #include <Random.hpp>
 class infantry : public unit{
-    int block_chance{};
+    int block_chance = 75;
 public:
     infantry() = default;
     infantry( int player_, int x_, int y_);
