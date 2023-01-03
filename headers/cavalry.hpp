@@ -16,7 +16,7 @@ public:
             const int charge_bonus_,const int x_, const int y_, const int player_,const int old_x_, const int old_y_)
             : unit(health_,dmg_,defence_,range_,movement_pts_,x_,y_,player_), charge_bonus{charge_bonus_}, old_x{old_x_}, old_y{old_y_}{}
     friend std::ostream& operator<<(std::ostream& os,const cavalry& cav);
-    cavalry(const cavalry& other) : unit(other), charge_bonus{other.charge_bonus}{}
+    cavalry(const cavalry& other) : unit(other), charge_bonus{other.charge_bonus}, old_x{other.old_x}, old_y{other.old_y}{}
     void print_value() override{
         int value = 4+ this->player;
         std::cout<<value;
