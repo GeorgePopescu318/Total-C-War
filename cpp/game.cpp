@@ -16,33 +16,46 @@ void game::check_for_attack() {
     for (int iter = 0; iter < map_size + 6;++iter) {
         for (int jter = 0; jter < 8; ++jter) {
             if (board.at(iter).at(jter) != nullptr){
+                std::cout<<iter<<" "<<jter<<"\n";
                 float flanks = 1;
+                if (iter+1 < map_size + 6){
+                    std::cout<<"in jos1\n";
+                    if (board.at(iter+1).at(jter) != nullptr){
+                        std::cout<<"in jos2\n";
+                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter+1).at(jter)->getPlayer()) {
+                            std::cout<<"in jos3\n";
+                            board.at(iter).at(jter)->defend(board.at(iter+1).at(jter)->attack());
+                }}}
+                if (jter+1 < 8){
+                    std::cout<<";in dreapta1;\n";
+                    if(board.at(iter).at(jter+1) != nullptr){
+                        std::cout<<";in dreapta2;\n";
+                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter+1)->getPlayer()) {
+                            std::cout<<";in dreapta3;\n";
+                            flanks += 0.25;
+                            board.at(iter).at(jter)->defend(flanks*board.at(iter).at(jter+1)->attack());
+                }}}
+                if (iter-1 >= 0){
+                    std::cout<<";in sus1;\n";
+                    if(board.at(iter-1).at(jter) != nullptr){
+                        std::cout<<";in sus2;\n";
+                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter-1).at(jter)->getPlayer()) {
+                            std::cout<<";in sus3;\n";
+                            flanks += 0.25;
+                            board.at(iter).at(jter)->defend(flanks*board.at(iter-1).at(jter)->attack());
+                }}}
+                if (jter-1 >= 0){
+                    std::cout<<";in stanga1;\n";
+                    if(board.at(iter).at(jter-1) != nullptr){
+                        std::cout<<";in stanga2;\n";
+                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter-1)->getPlayer()) {
+                            std::cout<<";in stanga3;\n";
+                            flanks += 0.25;
+                            board.at(iter).at(jter)->defend(flanks*board.at(iter).at(jter-1)->attack());
+                }}}
                 if (board.at(iter).at(jter)->getHealth() <= 0){
                     board.at(iter).at(jter) = nullptr;
                     break;
-                }
-                if (iter+1 < map_size + 6)
-                    if (board.at(iter+1).at(jter) != nullptr)
-                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter+1).at(jter)->getPlayer()) {
-                            board.at(iter).at(jter)->defend(board.at(iter+1).at(jter)->attack());
-                }
-                if (jter+1 < 8)
-                    if(board.at(iter).at(jter+1) != nullptr)
-                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter+1)->getPlayer()) {
-                            flanks += 0.25;
-                            board.at(iter).at(jter)->defend(flanks*board.at(iter).at(jter+1)->attack());
-                }
-                if (iter-1 <= 0)
-                    if(board.at(iter-1).at(jter) != nullptr)
-                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter-1).at(jter)->getPlayer()) {
-                            flanks += 0.25;
-                            board.at(iter).at(jter)->defend(flanks*board.at(iter-1).at(jter)->attack());
-                }
-                if (jter-1 >= 0)
-                    if(board.at(iter).at(jter-1) != nullptr)
-                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter-1)->getPlayer()) {
-                            flanks += 0.25;
-                            board.at(iter).at(jter)->defend(flanks*board.at(iter).at(jter-1)->attack());
                 }
             }
         }
@@ -57,7 +70,7 @@ template <typename T> int game::config(player& ply){
     int units_order = 1;
     std::cout<<"The number of "<<cut(typeid(T).name())<<" units will be:";
     std::cin>>units_nr;
-   while (units_nr > 9)
+   while (units_nr > army_size)
     {
         std::cout<<"Error too many units, try again!\n";
         std::cin>>units_nr;
@@ -124,22 +137,47 @@ void game::init_player(player& ply, int id) {
     int nr_1 = 0;
     int nr_2 = 0;
     int nr_3 = 0;
+    int nr_units_left = army_size;
+    std::cout<<"You have " << nr_units_left << " units left\n";
     nr_1 = this->config<infantry>(ply);
-    // add max unit counter
+    nr_units_left-=nr_1;
+    std::cout<<"You have " << nr_units_left << " units left\n";
     nr_2 = this->config<archers>(ply);
+    nr_units_left-=nr_2;
+    if(nr_units_left < 0){
+        throw end_game("Player" + ply.getName() + "has too many units!");
+    }
+    std::cout<<"You have " << nr_units_left << " units left\n";
     nr_3 = this->config<cavalry>(ply);
-    ply.set_flags(nr_1 - 1,nr_1+nr_2-1,nr_1+nr_2+nr_3-1);
+    nr_units_left -=nr_3;
+    if(nr_units_left < 0){
+        throw end_game("Player" + ply.getName() + "has too many units!");
+    }
     board.emplace_back(location0);
     board.emplace_back(location1);
     board.emplace_back(location2);
     std::cout<<'\n';
 }
 void game::start_game() {
+    std::cout<<"   ";
+    for (int i = 0; i < 8; ++i) {
+        std::cout<<i<<" ";
+    }
+    std::cout<<"\n";
+    int k = 0;
+    for (int i = 0; i<map_size+6; ++ i) {
+        std::cout << k++ << "  ";
+        for (int j = 0; j < 8; ++j) {
+            std::cout<<"0 ";
+        }
+        std::cout<<"\n";
+    }
     init_player(p1,1);
     board_fill();
         fill_n(location0.begin(),8,nullptr);
         fill_n(location1.begin(),8,nullptr);
         fill_n(location2.begin(),8,nullptr);
+        print_board();
     init_player(p2,2);
     std::cout<<"\n";
     print_board();
@@ -189,11 +227,13 @@ void game::mid_game() {
             }
         }
         while (moves  > 0) {
+            p1.view_units();
+            p2.view_units();
             std::cout << "You have " << moves << " moves\n";
-            int balance_of_power = turn->view_units() - other->view_units();
+            unsigned long long balance_of_power = p1.getUnitsv().size() - p2.getUnitsv().size();
             std::cout << "The balance of power is: " << balance_of_power << "\n";
             std::cout << "The options of  " << *turn
-                      << ":\nMove unit [1]\nNothing [0]\nSurrender [-1]\nArcher Target [2]";
+                      << ":\nMove unit [1]\nNothing [0]\nSurrender [-1]\nArcher Target [2]\n";
             switch (print_option()) {
                 case 1: {
                     int x_init, y_init, x_dest, y_dest;
@@ -228,17 +268,24 @@ void game::mid_game() {
                     int x_init, y_init, x_dest, y_dest;
                     std::cout << "Enter the archer's position: ";
                     std::cin >> x_init >> y_init;
+                    if (board.at(x_init).at(y_init) == nullptr){
+                        std::cout<<"Error invalid unit";
+                        break;
+                    }
                     std::cout << "Enter the target's position: ";
                     std::cin >> x_dest >> y_dest;
+                    if (board.at(x_dest).at(y_dest) == nullptr){
+                        std::cout<<"Error invalid unit";
+                        break;
+                    }
                     std::cout << "\n";
                     std::shared_ptr selected = std::dynamic_pointer_cast<archers>(board.at(x_init).at(y_init));
                     if (selected == nullptr) {
                         std::cout << "Error insert another unit, those are not archers";
                         break;
                     } else {
-                        selected->set_enemy(board.at(x_dest).at(y_dest));
+                        selected->set_enemy(*board.at(x_dest).at(y_dest));
                     }
-                    moves-=1;
                     break;
                 }
                 case 0: {
@@ -258,7 +305,6 @@ void game::mid_game() {
             check_for_attack();
             turn->view_archers();
             std::swap(turn,other);
-            check_for_attack();
             turn->view_archers();
             moves = 3;
             print_board();
@@ -277,6 +323,7 @@ void game::run(){
 }
 game::game(){
     map_size = 4;
+    army_size = 9;
     location0.reserve(8);
     location1.reserve(8);
     location2.reserve(8);

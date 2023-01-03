@@ -44,7 +44,7 @@ public:
     int getPlayer() const;
     int getMovementPts() const;
     friend std::ostream &operator<<(std::ostream &os, const unit &un);
-    virtual int attack() const = 0;
+    virtual int attack() = 0;
     virtual void defend(float enemy_attack) = 0;
     int distance_between(const unit &other) const;
     virtual std::shared_ptr<unit> clone() const = 0;

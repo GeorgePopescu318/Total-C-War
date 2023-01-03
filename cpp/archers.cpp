@@ -11,8 +11,8 @@ archers::archers(int player_, int x_, int y_): miss_chance(75),enemy(nullptr),in
     health = 30;
     dmg = 30;
     defence = 5;
-    range = 5;
-    movement_pts = 7;
+    range = 4;
+    movement_pts = 4;
     x = x_;
     y = y_;
     player = player_;
@@ -31,13 +31,13 @@ int archers::attack_ranged() {
         return 0;
     }
 }
-int archers::attack() const {
+int archers::attack() {
         return this->dmg/4;
 }
-void archers::set_enemy(const std::shared_ptr<unit>& other){
-    if(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this->range){
+void archers::set_enemy( unit& other){
+    if(this->distance_between(other) > 1 && this->distance_between(other) < this->range){
         in_range = true;
-        enemy = other;
+        enemy = &other;
     }
 }
 void archers::check_range() {

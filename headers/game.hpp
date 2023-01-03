@@ -17,6 +17,7 @@ class game{
     std::vector<std::shared_ptr<unit>> location1;
     std::vector<std::shared_ptr<unit>> location2;
     int map_size;
+    int army_size;
     player p1;
     player p2;
 //    static int balance_of_power;

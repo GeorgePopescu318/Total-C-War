@@ -8,7 +8,7 @@
 #include "../headers/unit.hpp"
 class archers : public unit{
     int miss_chance {};
-    std::shared_ptr<unit> enemy;
+    unit* enemy;
     bool in_range;
 public:
     archers() = default;
@@ -22,11 +22,11 @@ public:
         int value = 2 + this->player;
         std::cout<<value;
     }
-    void set_enemy(const std::shared_ptr<unit>& other);
+    void set_enemy( unit& other);
     std::shared_ptr<unit> clone() const override{ return std::make_shared<archers>(*this);}
     void check_range();
     int attack_ranged();
-    int attack()const override;
+    int attack() override;
     void defend(float enemy_attack) override;
     //std::shared_ptr<unit> getEnemy() const;
     ~archers()=default;

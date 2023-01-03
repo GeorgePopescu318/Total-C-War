@@ -10,7 +10,7 @@ infantry::infantry(int player_, int x_, int y_){
     dmg = 50;
     defence = 50;
     range = 1;
-    movement_pts = 5;
+    movement_pts = 3;
     block_chance = 15;
     x = x_;
     y = y_;
@@ -22,7 +22,7 @@ std::ostream& operator<<(std::ostream& os,const infantry& inf){
     return os;
 }
 
-int infantry::attack() const{
+int infantry::attack() {
         return this->dmg;
 }
 

@@ -6,7 +6,7 @@
 #include "../headers/player.hpp"
 #include "../headers/archers.hpp"
 
-player::player(): id(0) ,f1(0),f2(0),f3(0){}
+player::player(): id(0){}
 std::ostream& operator<<(std::ostream& os,const player& ply){
     os << ply.name;
     return os;
@@ -20,23 +20,14 @@ void player::set_id_name(int id_, std::string name_) {
 void player::emplace_units(const std::shared_ptr<unit>& other) {
     this->unitsv.push_back(other->clone());
 }
-
-void player::set_flags(int f1_, int f2_, int f3_) {
-    this->f1 = f1_;
-    this->f2 = f2_;
-    this->f3 = f3_;
-}
-
 int player::getId() const {
     return id;
 }
 
-int player::view_units() {
-    int total_health = 0;
+void player::view_units() {
     std::cout<<"For "<<this->name<<" ";
     for (unsigned long long i = 0; i < unitsv.size(); ++i){
         if (unitsv.at(i)->getHealth() > 0) {
-            total_health+= unitsv.at(i)->getHealth();
             std::cout <<" unit at " << *unitsv.at(i)<< " has health:" << unitsv.at(i)->getHealth()<<'\n';
         }
         else{
@@ -44,7 +35,6 @@ int player::view_units() {
             unitsv.erase(unitsv.begin() + i);
         }
     }
-    return total_health;
 }
 void player::view_archers(){
     for (const auto& i:unitsv){

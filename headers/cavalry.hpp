@@ -8,6 +8,7 @@
 #include "../headers/unit.hpp"
 class cavalry : public unit{
     int charge_bonus{};
+    int old_x,old_y;
 public:
     cavalry() =default;
     cavalry(int player_, int x_, int y_);
@@ -20,7 +21,8 @@ public:
         int value = 4+ this->player;
         std::cout<<value;
     }
-    int attack()const override;
+    int position_difference();
+    int attack() override;
     std::shared_ptr<unit> clone() const override{ return std::make_shared<cavalry>(*this);}
     virtual void defend(float enemy_attack) override;
     ~cavalry() = default;

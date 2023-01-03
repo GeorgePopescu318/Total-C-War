@@ -11,7 +11,6 @@
 class player{
     std::vector<std::shared_ptr<unit>> unitsv;
     int id;
-    int f1,f2,f3;
     std::string name;
 public:
     player();
@@ -19,12 +18,11 @@ public:
     void set_id_name(int id_, std::string name_);
     friend std::ostream& operator<<(std::ostream& os,const player& ply);
     void emplace_units(const std::shared_ptr<unit>& vector);
-    void set_flags(int f1_, int f2_, int f3_);
     bool is_0(const std::shared_ptr<unit>& other){
         return other->getHealth() == 0;
     }
     std::vector<std::shared_ptr<unit>> &getUnitsv() ;
-    int view_units();
+    void view_units();
     void view_archers();
     int getId() const;
     bool zero_units();
