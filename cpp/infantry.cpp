@@ -22,16 +22,11 @@ std::ostream& operator<<(std::ostream& os,const infantry& inf){
     return os;
 }
 
-int infantry::attack(const unit& other) const{
-    if (this->distance_between(other) <= this->range) {
+int infantry::attack() const{
         return this->dmg;
-    }
-    else{
-        return 0;
-    }
 }
 
 void infantry::defend(const unit& enemy) {
     auto val = Random::get(70.0, 100.0);
-    this->health -=enemy.attack(*this)*(100.0/(100+this->defence))*(val-this->block_chance)/100;
+    this->health -=int(enemy.attack()*(100.0/(100+this->defence))*(val-this->block_chance)/100);
 }

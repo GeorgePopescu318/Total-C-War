@@ -20,8 +20,8 @@ public:
         int value = 4+ this->player;
         std::cout<<value;
     }
-    int attack(const unit& other)const override;
-    unit* clone() const override{ return new cavalry(*this);}
+    int attack()const override;
+    std::shared_ptr<unit> clone() const override{ return std::make_shared<cavalry>(*this);}
     virtual void defend(const unit& enemy) override;
     ~cavalry() = default;
 

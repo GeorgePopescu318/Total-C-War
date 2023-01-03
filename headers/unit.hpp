@@ -5,6 +5,8 @@
 #ifndef MAIN_CPP_UNIT_H
 #define MAIN_CPP_UNIT_H
 #include <iostream>
+#include <memory>
+
 class unit {
 protected:
     int health = 0;
@@ -42,11 +44,15 @@ public:
     int getPlayer() const;
     int getMovementPts() const;
     friend std::ostream &operator<<(std::ostream &os, const unit &un);
-    virtual int attack(const unit& other) const = 0;
+    virtual int attack() const = 0;
     virtual void defend(const unit &enemy) = 0;
     int distance_between(const unit &other) const;
-    virtual unit* clone() const = 0;
+    virtual std::shared_ptr<unit> clone() const = 0;
     virtual ~unit() = default;
+    int getX() const;
+    int getY() const;
+    void setX(int x);
+    void setY(int y);
 };
 
 

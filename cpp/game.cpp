@@ -4,6 +4,7 @@
 #include "../headers/game.hpp"
 #include "../headers/eroare.hpp"
 #include <random>
+#include <vector>
 #include <cmath>
 #include <Random.hpp>
 using Random = effolkronium::random_static;
@@ -11,6 +12,36 @@ std::string game::cut(std::string s){
     s.erase(std::remove_if(s.begin(), s.end(), ::isdigit), s.end());
     return s;
 }
+void game::check_for_attack() {
+    for (int iter = 0; iter < map_size + 6;++iter) {
+        for (int jter = 0; jter < 8; ++jter) {
+            if (board.at(iter).at(jter) != nullptr){
+                if (board.at(iter).at(jter)->getHealth() <= 0){
+                    board.at(iter).at(jter) = nullptr;
+                }
+                if (iter+1 < map_size + 6 && board.at(iter+1).at(jter) != nullptr &&
+                (board.at(iter).at(jter)->getPlayer() != board.at(iter+1).at(jter)->getPlayer())) {
+                    board.at(iter).at(jter)->defend(*board.at(iter+1).at(jter));
+                }
+                if (jter+1 < 8 && board.at(iter).at(jter+1) != nullptr &&
+                (board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter+1)->getPlayer())) {
+                    board.at(iter).at(jter)->defend(*board.at(iter).at(jter+1));
+                }
+                if (iter-1 <= 0 && board.at(iter-1).at(jter) != nullptr &&
+                (board.at(iter).at(jter)->getPlayer() != board.at(iter-1).at(jter)->getPlayer())) {
+                    board.at(iter).at(jter)->defend(*board.at(iter-1).at(jter));
+                }
+                if (jter-1 >= 0 && board.at(iter).at(jter-1) != nullptr &&
+                (board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter-1)->getPlayer())) {
+                    board.at(iter).at(jter)->defend(*board.at(iter).at(jter-1));
+                }
+            }
+        }
+    }
+}
+//   1
+// 1 1 1
+//   1
 template <typename T> int game::config(player& ply){
     int x_ =-1, y_=-1;
     int units_nr = 0;
@@ -29,7 +60,7 @@ template <typename T> int game::config(player& ply){
                 if (y_ == j) {
                     if (x_ == (map_size+3)*(ply.getId()-1)) {
                         location0.at(j) = std::make_shared<T>(ply.getId(),x_,y_);
-                        ply.emplace_units( location0.at(j));
+                        ply.getUnitsv().push_back( location0.at(j));
                     }
                     if (x_ == 1+(map_size+3)*(ply.getId()-1)) {
                         location1.at(j) = std::make_shared<T>(ply.getId(),x_,y_);
@@ -110,6 +141,8 @@ void game::start_game() {
 void game::move_unit(int x_init, int y_init, int x_dest, int y_dest) {
     if (board.at(x_init).at(y_init) != nullptr) {
         if (board.at(x_dest).at(y_dest) == nullptr) {
+            board.at(x_init).at(y_init)->setX(x_dest);
+            board.at(x_init).at(y_init)->setY(y_dest);
             board.at(x_dest).at(y_dest) = board.at(x_init).at(y_init);
             board.at(x_init).at(y_init) = nullptr;
         } else {
@@ -121,19 +154,18 @@ void game::move_unit(int x_init, int y_init, int x_dest, int y_dest) {
 }
 int game::print_option(){
     int option = 0;
-
     std::cin>>option;
     return option;
 }
 void game::mid_game() {
-    auto first = (Random::get({1, 2}));
+  //  auto first = (Random::get({1, 2}));
     player *turn;
     player *other;
     turn = &p1;
     other = &p2;
-    if (first == 2){
-        std::swap(p1,p2);
-    }
+//    if (first == 2){
+//        std::swap(turn,other);
+//    }
     int moves = 3;
     while (true) {
         if (turn->zero_units()){
@@ -150,19 +182,20 @@ void game::mid_game() {
         while (moves  > 0) {
             std::cout << "You have " << moves << " moves\n";
             int balance_of_power = turn->view_units() - other->view_units();
-            std::cout<<"The balance of power is: "<<balance_of_power<<"\n";
-            std::cout<<"The options of  "<<*turn<<":\nMove unit [1]\nNothing [0]\nSurrender [-1]\nArcher Target [2]";
+            std::cout << "The balance of power is: " << balance_of_power << "\n";
+            std::cout << "The options of  " << *turn
+                      << ":\nMove unit [1]\nNothing [0]\nSurrender [-1]\nArcher Target [2]";
             switch (print_option()) {
                 case 1: {
                     int x_init, y_init, x_dest, y_dest;
                     std::cout << "Enter the initial position:";
                     std::cin >> x_init >> y_init;
-                    if (board.at(x_init).at(y_init)->getPlayer() != turn->getId()) {
-                        std::cout << "error not your unit\n";
-                        break;
-                    }
                     if (board.at(x_init).at(y_init) == nullptr) {
                         std::cout << "error not a unit there\n";
+                        break;
+                    }
+                    if (board.at(x_init).at(y_init)->getPlayer() != turn->getId()) {
+                        std::cout << "error not your unit\n";
                         break;
                     }
                     std::cout << "Enter the destination position:";
@@ -172,40 +205,39 @@ void game::mid_game() {
                         break;
                     }
                     if (board.at(x_dest).at(y_dest) != nullptr) {
-                        move_unit(x_init, y_init, x_dest, y_dest);
                         moves -= 2;
+                        move_unit(x_init, y_init, x_dest, y_dest);
                         print_board();
                         break;
                     }
-                    move_unit(x_init, y_init, x_dest, y_dest);
                     moves--;
+                    move_unit(x_init, y_init, x_dest, y_dest);
                     print_board();
                     break;
                 }
-                case 2:{
+                case 2: {
                     int x_init, y_init, x_dest, y_dest;
-                    std::cout<<"Enter the archer's position: ";
-                    std::cin>>x_init>>y_init;
-                    std::cout<<"\n";
-                    std::cout<<"Enter the target's position: ";
-                    std::cin>>x_dest>>y_dest;
-                    std::cout<<"\n";
+                    std::cout << "Enter the archer's position: ";
+                    std::cin >> x_init >> y_init;
+                    std::cout << "Enter the target's position: ";
+                    std::cin >> x_dest >> y_dest;
+                    std::cout << "\n";
                     std::shared_ptr selected = std::dynamic_pointer_cast<archers>(board.at(x_init).at(y_init));
-                    if (selected == nullptr){
-                        std::cout<<"Error insert another unit, those are not archers";
+                    if (selected == nullptr) {
+                        std::cout << "Error insert another unit, those are not archers";
                         break;
-                    }
-                    else{
+                    } else {
                         selected->set_enemy(board.at(x_dest).at(y_dest));
                     }
+                    moves-=1;
                     break;
                 }
                 case 0: {
-                    moves-=5;
+                    moves -= 5;
                     break;
                 }
                 case -1: {
-                    throw end_game("Congrats "+ other->getName());
+                    throw end_game("Congrats " + other->getName());
                 }
                 default: {
                     moves--;
@@ -213,13 +245,15 @@ void game::mid_game() {
                 }
 
             }
+        }
             check_for_attack();
             turn->view_archers();
             std::swap(turn,other);
+            check_for_attack();
+            turn->view_archers();
             moves = 3;
             print_board();
             std::cout<<"\n";
-        }
     }
 }
 std::string game::get_name(int player_) {
@@ -228,11 +262,9 @@ std::string game::get_name(int player_) {
     std::cin>>name_;
     return name_;
 }
-
 void game::run(){
     start_game();
     mid_game();
-
 }
 game::game(){
     map_size = 4;
@@ -247,14 +279,3 @@ game::game(){
     board.reserve((map_size+6)*8);
 }
 
-void game::check_for_attack() {
-    for (unsigned long long iter = 0; iter < board.size();++iter) {
-        for (unsigned long long jter = 0; jter < 8; ++jter) {
-            if (board.at(iter).at(jter) != nullptr){
-                if (board.at(iter+1).at(jter) != nullptr) {
-                    board.at(iter).at(jter)->defend(reinterpret_cast<const unit &>(board.at(iter + 1).at(jter)));
-                }
-            }
-        }
-    }
-}

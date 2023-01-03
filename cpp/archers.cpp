@@ -34,13 +34,8 @@ int archers::attack_ranged() {
         return 0;
     }
 }
-int archers::attack(const unit& other) const {
-    if (this->distance_between(other) <= 1) {
+int archers::attack() const {
         return this->dmg/4;
-    }
-    else{
-        return 0;
-    }
 }
 void archers::set_enemy(const std::shared_ptr<unit>& other){
     if(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this->range){
@@ -51,7 +46,6 @@ void archers::set_enemy(const std::shared_ptr<unit>& other){
 void archers::check_range() {
     if(!(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this->range)){
         in_range = false;
-        enemy = nullptr;
     }
     if (in_range){
         enemy->defend(*this);
@@ -59,7 +53,7 @@ void archers::check_range() {
 }
 void archers::defend(const unit &opponent) {
     auto val = Random::get(70.0, 100.0);
-    this->health -=opponent.attack(*this)*(100.0/(100+this->defence))*(val/100);
+    this->health -=int(opponent.attack()*(100.0/(100+this->defence))*(val/100));
 }
 
 std::shared_ptr<unit> archers::getEnemy() const {

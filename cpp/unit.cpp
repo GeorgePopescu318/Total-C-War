@@ -22,5 +22,21 @@ int unit::getMovementPts() const {
 }
 
 int unit::distance_between(const unit &other) const {
-    return abs(this->x + this->y - other.x - other.y);
+    return abs(this->x + this->y - other.getX() - other.getY());
+}
+
+void unit::setX(int x_) {
+    unit::x = x_;
+}
+
+void unit::setY(int y_) {
+    unit::y = y_;
+}
+
+int unit::getX() const {
+    return x;
+}
+
+int unit::getY() const {
+    return y;
 }

@@ -24,17 +24,12 @@ std::ostream& operator<<(std::ostream& os,const cavalry& cav){
     return os;
 }
 
-int cavalry::attack(const unit& other) const {
-    if (this->distance_between(other) <= this->range) {
-        return this->dmg*(100+range*10)/100;
-    }
-    else{
-        return 0;
-    }
+int cavalry::attack() const {
+        return this->dmg;
 }
 
 void cavalry::defend(const unit &enemy) {
     auto val = Random::get(70.0, 100.0);
-    this->health -=enemy.attack(*this)*(100.0/(100+this->defence))*(val/100);
+    this->health -=enemy.attack()*(100.0/(100+this->defence))*(val/100);
 }
 

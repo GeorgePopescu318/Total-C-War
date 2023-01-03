@@ -22,9 +22,9 @@ public:
         int value = this->player;
         std::cout<<value;
     }
-    unit* clone() const override{ return new infantry(*this);}
+     std::shared_ptr<unit>clone() const override{ return std::make_shared<infantry>(*this);}
     ~infantry() override =default;
-   int attack(const unit& other)const override;
+   int attack()const override;
    void defend(const unit& enemy) override;
 };
 

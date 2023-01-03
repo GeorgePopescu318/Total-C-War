@@ -23,10 +23,10 @@ public:
         std::cout<<value;
     }
     void set_enemy(const std::shared_ptr<unit>& other);
-    unit* clone() const override{ return new archers(*this);}
+    std::shared_ptr<unit> clone() const override{ return std::make_shared<archers>(*this);}
     void check_range();
     int attack_ranged();
-    int attack(const unit& other)const override;
+    int attack()const override;
     void defend(const unit& enemy) override;
     std::shared_ptr<unit> getEnemy() const;
     ~archers()=default;

@@ -23,6 +23,7 @@ public:
     bool is_0(const std::shared_ptr<unit>& other){
         return other->getHealth() == 0;
     }
+    std::vector<std::shared_ptr<unit>> &getUnitsv() ;
     int view_units();
     void view_archers();
     int getId() const;
