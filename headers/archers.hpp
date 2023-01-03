@@ -27,8 +27,8 @@ public:
     void check_range();
     int attack_ranged();
     int attack()const override;
-    void defend(const unit& enemy) override;
-    std::shared_ptr<unit> getEnemy() const;
+    void defend(float enemy_attack) override;
+    //std::shared_ptr<unit> getEnemy() const;
     ~archers()=default;
 };
 

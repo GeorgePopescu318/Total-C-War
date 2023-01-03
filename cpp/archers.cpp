@@ -7,18 +7,15 @@
 #include <memory>
 
 using Random = effolkronium::random_static;
-archers::archers(int player_, int x_, int y_) {
+archers::archers(int player_, int x_, int y_): miss_chance(75),enemy(nullptr),in_range(false){
     health = 30;
     dmg = 30;
     defence = 5;
     range = 5;
     movement_pts = 7;
-    miss_chance =75;
     x = x_;
     y = y_;
     player = player_;
-    enemy = nullptr;
-    in_range = false;
 }
 std::ostream& operator<<(std::ostream& os,const archers& arch){
     os << "Health: " << arch.health << "; Damage: " << arch.dmg << "; Defence: " << arch.defence << "; Range: " << arch.range <<"; Movement Points: "
@@ -48,15 +45,15 @@ void archers::check_range() {
         in_range = false;
     }
     if (in_range){
-        enemy->defend(*this);
+        enemy->defend(this->attack_ranged());
     }
 }
-void archers::defend(const unit &opponent) {
+void archers::defend(float enemy_attack) {
     auto val = Random::get(70.0, 100.0);
-    this->health -=int(opponent.attack()*(100.0/(100+this->defence))*(val/100));
+    this->health -=int(enemy_attack*(100.0/(100+this->defence))*(val/100));
 }
 
-std::shared_ptr<unit> archers::getEnemy() const {
-    return enemy;
-}
+//std::shared_ptr<unit> archers::getEnemy() const {
+//    return enemy;
+//}
 

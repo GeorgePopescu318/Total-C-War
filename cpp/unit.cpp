@@ -14,7 +14,7 @@ int unit::getHealth() const {
 }
 
 int unit::getPlayer() const {
-    return player;
+    return this->player;
 }
 
 int unit::getMovementPts() const {

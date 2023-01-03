@@ -25,7 +25,7 @@ public:
      std::shared_ptr<unit>clone() const override{ return std::make_shared<infantry>(*this);}
     ~infantry() override =default;
    int attack()const override;
-   void defend(const unit& enemy) override;
+   void defend(float enemy_attack) override;
 };
 
 

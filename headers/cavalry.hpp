@@ -22,7 +22,7 @@ public:
     }
     int attack()const override;
     std::shared_ptr<unit> clone() const override{ return std::make_shared<cavalry>(*this);}
-    virtual void defend(const unit& enemy) override;
+    virtual void defend(float enemy_attack) override;
     ~cavalry() = default;
 
 };

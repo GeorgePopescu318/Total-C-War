@@ -26,7 +26,7 @@ int infantry::attack() const{
         return this->dmg;
 }
 
-void infantry::defend(const unit& enemy) {
+void infantry::defend(float enemy_attack) {
     auto val = Random::get(70.0, 100.0);
-    this->health -=int(enemy.attack()*(100.0/(100+this->defence))*(val-this->block_chance)/100);
+    this->health -=int(enemy_attack*(100.0/(100+this->defence))*(val-this->block_chance)/100);
 }

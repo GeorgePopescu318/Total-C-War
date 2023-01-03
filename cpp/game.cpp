@@ -16,24 +16,33 @@ void game::check_for_attack() {
     for (int iter = 0; iter < map_size + 6;++iter) {
         for (int jter = 0; jter < 8; ++jter) {
             if (board.at(iter).at(jter) != nullptr){
+                float flanks = 1;
                 if (board.at(iter).at(jter)->getHealth() <= 0){
                     board.at(iter).at(jter) = nullptr;
+                    break;
                 }
-                if (iter+1 < map_size + 6 && board.at(iter+1).at(jter) != nullptr &&
-                (board.at(iter).at(jter)->getPlayer() != board.at(iter+1).at(jter)->getPlayer())) {
-                    board.at(iter).at(jter)->defend(*board.at(iter+1).at(jter));
+                if (iter+1 < map_size + 6)
+                    if (board.at(iter+1).at(jter) != nullptr)
+                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter+1).at(jter)->getPlayer()) {
+                            board.at(iter).at(jter)->defend(board.at(iter+1).at(jter)->attack());
                 }
-                if (jter+1 < 8 && board.at(iter).at(jter+1) != nullptr &&
-                (board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter+1)->getPlayer())) {
-                    board.at(iter).at(jter)->defend(*board.at(iter).at(jter+1));
+                if (jter+1 < 8)
+                    if(board.at(iter).at(jter+1) != nullptr)
+                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter+1)->getPlayer()) {
+                            flanks += 0.25;
+                            board.at(iter).at(jter)->defend(flanks*board.at(iter).at(jter+1)->attack());
                 }
-                if (iter-1 <= 0 && board.at(iter-1).at(jter) != nullptr &&
-                (board.at(iter).at(jter)->getPlayer() != board.at(iter-1).at(jter)->getPlayer())) {
-                    board.at(iter).at(jter)->defend(*board.at(iter-1).at(jter));
+                if (iter-1 <= 0)
+                    if(board.at(iter-1).at(jter) != nullptr)
+                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter-1).at(jter)->getPlayer()) {
+                            flanks += 0.25;
+                            board.at(iter).at(jter)->defend(flanks*board.at(iter-1).at(jter)->attack());
                 }
-                if (jter-1 >= 0 && board.at(iter).at(jter-1) != nullptr &&
-                (board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter-1)->getPlayer())) {
-                    board.at(iter).at(jter)->defend(*board.at(iter).at(jter-1));
+                if (jter-1 >= 0)
+                    if(board.at(iter).at(jter-1) != nullptr)
+                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter-1)->getPlayer()) {
+                            flanks += 0.25;
+                            board.at(iter).at(jter)->defend(flanks*board.at(iter).at(jter-1)->attack());
                 }
             }
         }

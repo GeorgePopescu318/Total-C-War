@@ -28,8 +28,8 @@ int cavalry::attack() const {
         return this->dmg;
 }
 
-void cavalry::defend(const unit &enemy) {
+void cavalry::defend(float enemy_attack) {
     auto val = Random::get(70.0, 100.0);
-    this->health -=enemy.attack()*(100.0/(100+this->defence))*(val/100);
+    this->health -=int(enemy_attack*(100.0/(100+this->defence))*(val/100));
 }
 
