@@ -40,6 +40,17 @@ public:
     virtual void print_value(){
         std::cout<< -1;
     };
+    friend void swap(unit &u1, unit &u2){
+        using std::swap;
+        swap(u1.health,u2.health);
+        swap(u1.dmg,u2.dmg);
+        swap(u1.defence,u2.defence);
+        swap(u1.range,u2.range);
+        swap(u1.movement_pts,u2.movement_pts);
+        swap(u1.x,u2.x);
+        swap(u1.y,u2.y);
+        swap(u1.player,u2.player);
+    }
     int getHealth() const;
     int getPlayer() const;
     int getMovementPts() const;
