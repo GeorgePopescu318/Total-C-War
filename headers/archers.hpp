@@ -11,7 +11,7 @@ class archers : public unit{
     unit* enemy;
     bool in_range;
 public:
-    archers() = default;
+    archers() =default;
     archers(int player_, int x_, int y_);
     archers(const int health_, const int dmg_, const int defence_, const int range_, const int movement_pts_,const int miss_chance_,
             const int x_, const int y_, const int player_, unit* enemy_, bool in_range_)

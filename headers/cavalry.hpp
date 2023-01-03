@@ -10,7 +10,7 @@ class cavalry : public unit{
     int charge_bonus{};
     int old_x,old_y;
 public:
-    cavalry() =default;
+    cavalry() = default;
     cavalry(int player_, int x_, int y_);
     cavalry(const int health_, const int dmg_, const int defence_, const int range_, const int movement_pts_,
             const int charge_bonus_,const int x_, const int y_, const int player_,const int old_x_, const int old_y_)
