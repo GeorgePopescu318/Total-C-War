@@ -7,9 +7,9 @@
 #include <memory>
 #include "../headers/unit.hpp"
 class archers : public unit{
-    int miss_chance {};
-    unit* enemy;
-    bool in_range;
+    int miss_chance = 75;
+    unit* enemy = nullptr;
+    bool in_range = false;
 public:
     archers() =default;
     archers(int player_, int x_, int y_);
