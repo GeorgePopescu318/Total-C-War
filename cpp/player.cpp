@@ -27,11 +27,10 @@ int player::getId() const {
 
 void player::view_units() {
     std::cout<<"For "<<this->name<<" ";
-    for (unsigned long long i = 0; i < unitsv.size(); ++i){
+    for (unsigned long long i = 0; i < unitsv.size(); ++i) {
         if (unitsv.at(i)->getHealth() > 0) {
-            std::cout <<" unit at " << *unitsv.at(i)<< " has health:" << unitsv.at(i)->getHealth()<<'\n';
-        }
-        else{
+            std::cout << " unit at " << *unitsv.at(i) << " has health:" << unitsv.at(i)->getHealth() << '\n';
+        } else {
             unitsv.at(i) = nullptr;
             unitsv.erase(unitsv.begin() + i);
         }

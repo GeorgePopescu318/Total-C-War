@@ -4,7 +4,6 @@
 
 #ifndef MAIN_CPP_GAME_HPP
 #define MAIN_CPP_GAME_HPP
-
 #include <iostream>
 #include <vector>
 #include "../headers/player.hpp"
@@ -14,7 +13,6 @@
 #include "../headers/cavalry.hpp"
 #include "../headers/catapult.hpp"
 #include "../headers/Singeton.hpp"
-
 class game : public Singleton<game> {
     std::vector<std::vector<std::shared_ptr<unit>>> board;
     std::vector<std::shared_ptr<unit>> location0;
@@ -26,6 +24,7 @@ class game : public Singleton<game> {
     player p2;
 public:
     game();
+
     void run();
     ~game() = default;
 private:

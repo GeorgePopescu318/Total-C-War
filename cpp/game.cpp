@@ -140,10 +140,10 @@ void game::init_player(player& ply, int id) {
     int nr_3 = 0;
     int nr_4 = 0;
     int nr_units_left = army_size;
-    std::cout<<"You have " << nr_units_left << " units left\n";
+    std::cout << "You have " << nr_units_left << " units left\n";
     nr_1 = this->config<infantry>(ply);
-    nr_units_left-=nr_1;
-    std::cout<<"You have " << nr_units_left << " units left\n";
+    nr_units_left -= nr_1;
+    std::cout << "You have " << nr_units_left << " units left\n";
     nr_2 = this->config<archers>(ply);
     nr_units_left -= nr_2;
     if (nr_units_left < 0) {
@@ -334,15 +334,15 @@ void game::mid_game() {
 
             }
         }
-            check_for_attack();
+        check_for_attack();
         turn->view_archers();
         turn->view_catapults();
         std::swap(turn, other);
         turn->view_archers();
         turn->view_catapults();
         moves = 3;
-            print_board();
-            std::cout<<"\n";
+        print_board();
+        std::cout << "\n";
     }
 }
 std::string game::get_name(int player_) {

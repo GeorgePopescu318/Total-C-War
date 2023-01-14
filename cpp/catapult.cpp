@@ -5,9 +5,7 @@
 #include "../headers/catapult.hpp"
 #include <random>
 #include <memory>
-
 using Random = effolkronium::random_static;
-
 int catapult::attack() {
     return this->dmg / 4;
 }
