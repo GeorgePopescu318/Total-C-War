@@ -7,6 +7,7 @@
 #include <vector>
 #include <cmath>
 #include <Random.hpp>
+
 using Random = effolkronium::random_static;
 std::string game::cut(std::string s){
     s.erase(std::remove_if(s.begin(), s.end(), ::isdigit), s.end());
@@ -137,26 +138,33 @@ void game::init_player(player& ply, int id) {
     int nr_1 = 0;
     int nr_2 = 0;
     int nr_3 = 0;
+    int nr_4 = 0;
     int nr_units_left = army_size;
     std::cout<<"You have " << nr_units_left << " units left\n";
     nr_1 = this->config<infantry>(ply);
     nr_units_left-=nr_1;
     std::cout<<"You have " << nr_units_left << " units left\n";
     nr_2 = this->config<archers>(ply);
-    nr_units_left-=nr_2;
-    if(nr_units_left < 0){
+    nr_units_left -= nr_2;
+    if (nr_units_left < 0) {
         throw end_game("Player" + ply.getName() + "has too many units!");
     }
-    std::cout<<"You have " << nr_units_left << " units left\n";
+    std::cout << "You have " << nr_units_left << " units left\n";
     nr_3 = this->config<cavalry>(ply);
-    nr_units_left -=nr_3;
-    if(nr_units_left < 0){
+    nr_units_left -= nr_3;
+    if (nr_units_left < 0) {
+        throw end_game("Player" + ply.getName() + "has too many units!");
+    }
+    std::cout << "You have " << nr_units_left << " units left\n";
+    nr_4 = this->config<catapult>(ply);
+    nr_units_left -= nr_4;
+    if (nr_units_left < 0) {
         throw end_game("Player" + ply.getName() + "has too many units!");
     }
     board.emplace_back(location0);
     board.emplace_back(location1);
     board.emplace_back(location2);
-    std::cout<<'\n';
+    std::cout << '\n';
 }
 void game::start_game() {
     std::cout<<"   ";
@@ -233,7 +241,7 @@ void game::mid_game() {
             unsigned long long balance_of_power = p1.getUnitsv().size() - p2.getUnitsv().size();
             std::cout << "The balance of power is: " << balance_of_power << "\n";
             std::cout << "The options of  " << *turn
-                      << ":\nMove unit [1]\nNothing [0]\nSurrender [-1]\nArcher Target [2]\n";
+                      << ":\nMove unit [1]\nNothing [0]\nSurrender [-1]\nArcher Target [2]\nCatapult Target[3]\n";
             switch (print_option()) {
                 case 1: {
                     int x_init, y_init, x_dest, y_dest;
@@ -288,6 +296,30 @@ void game::mid_game() {
                     }
                     break;
                 }
+                case 3: {
+                    int x_init, y_init, x_dest, y_dest;
+                    std::cout << "Enter the catapult's position: ";
+                    std::cin >> x_init >> y_init;
+                    if (board.at(x_init).at(y_init) == nullptr) {
+                        std::cout << "Error invalid unit";
+                        break;
+                    }
+                    std::cout << "Enter the target's position: ";
+                    std::cin >> x_dest >> y_dest;
+                    if (board.at(x_dest).at(y_dest) == nullptr) {
+                        std::cout << "Error invalid unit";
+                        break;
+                    }
+                    std::cout << "\n";
+                    std::shared_ptr selected = std::dynamic_pointer_cast<catapult>(board.at(x_init).at(y_init));
+                    if (selected == nullptr) {
+                        std::cout << "Error insert another unit, that is not a catapult";
+                        break;
+                    } else {
+                        selected->set_enemy(*board.at(x_dest).at(y_dest));
+                    }
+                    break;
+                }
                 case 0: {
                     moves -= 5;
                     break;
@@ -303,10 +335,12 @@ void game::mid_game() {
             }
         }
             check_for_attack();
-            turn->view_archers();
-            std::swap(turn,other);
-            turn->view_archers();
-            moves = 3;
+        turn->view_archers();
+        turn->view_catapults();
+        std::swap(turn, other);
+        turn->view_archers();
+        turn->view_catapults();
+        moves = 3;
             print_board();
             std::cout<<"\n";
     }
@@ -334,4 +368,3 @@ game::game(){
     }
     board.reserve((map_size+6)*8);
 }
-

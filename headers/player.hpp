@@ -29,6 +29,7 @@ public:
     const std::string &getName() const;
     ~player() = default;
 
+    void view_catapults();
 };
 
 

@@ -4,8 +4,9 @@
 #include <iostream>
 int main() {
     try {
-        game g1;
-        g1.run();}
+        game *g1 = game::getInstance();
+        g1->run();
+    }
         catch (end_game &err) {
             std::cout << err.what() << "\n";
         }

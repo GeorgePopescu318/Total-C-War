@@ -4,6 +4,7 @@
 
 #ifndef MAIN_CPP_GAME_HPP
 #define MAIN_CPP_GAME_HPP
+
 #include <iostream>
 #include <vector>
 #include "../headers/player.hpp"
@@ -11,8 +12,11 @@
 #include "../headers/infantry.hpp"
 #include "../headers/archers.hpp"
 #include "../headers/cavalry.hpp"
-class game{
-    std::vector< std::vector<std::shared_ptr<unit>> > board;
+#include "../headers/catapult.hpp"
+#include "../headers/Singeton.hpp"
+
+class game : public Singleton<game> {
+    std::vector<std::vector<std::shared_ptr<unit>>> board;
     std::vector<std::shared_ptr<unit>> location0;
     std::vector<std::shared_ptr<unit>> location1;
     std::vector<std::shared_ptr<unit>> location2;
@@ -20,7 +24,6 @@ class game{
     int army_size;
     player p1;
     player p2;
-//    static int balance_of_power;
 public:
     game();
     void run();

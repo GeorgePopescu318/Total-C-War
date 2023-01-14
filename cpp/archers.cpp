@@ -41,11 +41,13 @@ void archers::set_enemy( unit& other){
     }
 }
 void archers::check_range() {
-    if(!(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this->range)){
-        in_range = false;
-    }
-    if (in_range){
-        enemy->defend(this->attack_ranged());
+    if (enemy != nullptr) {
+        if (!(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this->range)) {
+            in_range = false;
+        }
+        if (in_range) {
+            enemy->defend(this->attack_ranged());
+        }
     }
 }
 void archers::defend(float enemy_attack) {

@@ -5,6 +5,7 @@
 #include <utility>
 #include "../headers/player.hpp"
 #include "../headers/archers.hpp"
+#include "../headers/catapult.hpp"
 
 player::player(): id(0){}
 std::ostream& operator<<(std::ostream& os,const player& ply){
@@ -36,13 +37,23 @@ void player::view_units() {
         }
     }
 }
-void player::view_archers(){
-    for (const auto& i:unitsv){
+
+void player::view_archers() {
+    for (const auto &i: unitsv) {
         if (std::dynamic_pointer_cast<archers>(i) != nullptr) {
             std::dynamic_pointer_cast<archers>(i)->archers::check_range();
         }
     }
 }
+
+void player::view_catapults() {
+    for (const auto &i: unitsv) {
+        if (std::dynamic_pointer_cast<catapult>(i) != nullptr) {
+            std::dynamic_pointer_cast<catapult>(i)->catapult::check_range();
+        }
+    }
+}
+
 bool player::zero_units() {
     return unitsv.empty();
 }
