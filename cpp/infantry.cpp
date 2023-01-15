@@ -4,8 +4,10 @@
 #include <Random.hpp>
 #include "../headers/infantry.hpp"
 #include <random>
+
 using Random = effolkronium::random_static;
-infantry::infantry(int player_, int x_, int y_){
+
+infantry::infantry(int player_, int x_, int y_) {
     health = 100;
     dmg = 50;
     defence = 50;
@@ -16,17 +18,20 @@ infantry::infantry(int player_, int x_, int y_){
     y = y_;
     player = player_;
 }
-std::ostream& operator<<(std::ostream& os,const infantry& inf){
-    os << "Health: " << inf.health << "; Damage: " << inf.dmg << "; Defence: " << inf.defence << "; Range: " << inf.range <<"; Movement Points: " << inf.movement_pts
-       <<"; X Location: "<< inf.x<<"; Y Location: "<<inf.y<<"; Player:"<<inf.player <<"; Block chance: " << inf.block_chance;
+
+std::ostream &operator<<(std::ostream &os, const infantry &inf) {
+    os << "Health: " << inf.health << "; Damage: " << inf.dmg << "; Defence: " << inf.defence << "; Range: "
+       << inf.range << "; Movement Points: " << inf.movement_pts
+       << "; X Location: " << inf.x << "; Y Location: " << inf.y << "; Player:" << inf.player << "; Block chance: "
+       << inf.block_chance;
     return os;
 }
 
 int infantry::attack() {
-        return this->dmg;
+    return this->dmg;
 }
 
 void infantry::defend(float enemy_attack) {
     auto val = Random::get(70.0, 100.0);
-    this->health -=int(enemy_attack*(100.0/(100+this->defence))*(val-this->block_chance)/100);
+    this->health -= int(enemy_attack * (100.0 / (100 + this->defence)) * (val - this->block_chance) / 100);
 }

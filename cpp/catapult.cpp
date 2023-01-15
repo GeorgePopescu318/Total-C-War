@@ -5,7 +5,9 @@
 #include "../headers/catapult.hpp"
 #include <random>
 #include <memory>
+
 using Random = effolkronium::random_static;
+
 int catapult::attack() {
     return this->dmg / 4;
 }
@@ -22,7 +24,7 @@ void catapult::defend(float enemy_attack) {
 }
 
 void catapult::set_enemy(unit &other) {
-    if (this->distance_between(other) > 1 && this->distance_between(other) < this->range) {
+    if (this->distance_between(other)) {
         in_range = true;
         enemy = &other;
     }
@@ -30,7 +32,7 @@ void catapult::set_enemy(unit &other) {
 
 void catapult::check_range() {
     if (enemy != nullptr) {
-        if (!(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this->range)) {
+        if (!this->distance_between(*enemy)) {
             in_range = false;
         }
         if (in_range) {

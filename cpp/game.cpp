@@ -9,52 +9,62 @@
 #include <Random.hpp>
 
 using Random = effolkronium::random_static;
-std::string game::cut(std::string s){
+
+std::string game::cut(std::string s) {
     s.erase(std::remove_if(s.begin(), s.end(), ::isdigit), s.end());
     return s;
 }
+
 void game::check_for_attack() {
-    for (int iter = 0; iter < map_size + 6;++iter) {
+    for (int iter = 0; iter < map_size + 6; ++iter) {
         for (int jter = 0; jter < 8; ++jter) {
-            if (board.at(iter).at(jter) != nullptr){
-                std::cout<<iter<<" "<<jter<<"\n";
+            if (board.at(iter).at(jter) != nullptr) {
+                std::cout << iter << " " << jter << "\n";
                 float flanks = 1;
-                if (iter+1 < map_size + 6){
-                    std::cout<<"in jos1\n";
-                    if (board.at(iter+1).at(jter) != nullptr){
-                        std::cout<<"in jos2\n";
-                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter+1).at(jter)->getPlayer()) {
-                            std::cout<<"in jos3\n";
-                            board.at(iter).at(jter)->defend(board.at(iter+1).at(jter)->attack());
-                }}}
-                if (jter+1 < 8){
-                    std::cout<<";in dreapta1;\n";
-                    if(board.at(iter).at(jter+1) != nullptr){
-                        std::cout<<";in dreapta2;\n";
-                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter+1)->getPlayer()) {
-                            std::cout<<";in dreapta3;\n";
+                if (iter + 1 < map_size + 6) {
+                    std::cout << "in jos1\n";
+                    if (board.at(iter + 1).at(jter) != nullptr) {
+                        std::cout << "in jos2\n";
+                        if (board.at(iter).at(jter)->getPlayer() != board.at(iter + 1).at(jter)->getPlayer()) {
+                            std::cout << "in jos3\n";
+                            board.at(iter).at(jter)->defend(board.at(iter + 1).at(jter)->attack());
+                        }
+                    }
+                }
+                if (jter + 1 < 8) {
+                    std::cout << ";in dreapta1;\n";
+                    if (board.at(iter).at(jter + 1) != nullptr) {
+                        std::cout << ";in dreapta2;\n";
+                        if (board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter + 1)->getPlayer()) {
+                            std::cout << ";in dreapta3;\n";
                             flanks += 0.25;
-                            board.at(iter).at(jter)->defend(flanks*board.at(iter).at(jter+1)->attack());
-                }}}
-                if (iter-1 >= 0){
-                    std::cout<<";in sus1;\n";
-                    if(board.at(iter-1).at(jter) != nullptr){
-                        std::cout<<";in sus2;\n";
-                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter-1).at(jter)->getPlayer()) {
-                            std::cout<<";in sus3;\n";
+                            board.at(iter).at(jter)->defend(flanks * board.at(iter).at(jter + 1)->attack());
+                        }
+                    }
+                }
+                if (iter - 1 >= 0) {
+                    std::cout << ";in sus1;\n";
+                    if (board.at(iter - 1).at(jter) != nullptr) {
+                        std::cout << ";in sus2;\n";
+                        if (board.at(iter).at(jter)->getPlayer() != board.at(iter - 1).at(jter)->getPlayer()) {
+                            std::cout << ";in sus3;\n";
                             flanks += 0.25;
-                            board.at(iter).at(jter)->defend(flanks*board.at(iter-1).at(jter)->attack());
-                }}}
-                if (jter-1 >= 0){
-                    std::cout<<";in stanga1;\n";
-                    if(board.at(iter).at(jter-1) != nullptr){
-                        std::cout<<";in stanga2;\n";
-                        if(board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter-1)->getPlayer()) {
-                            std::cout<<";in stanga3;\n";
+                            board.at(iter).at(jter)->defend(flanks * board.at(iter - 1).at(jter)->attack());
+                        }
+                    }
+                }
+                if (jter - 1 >= 0) {
+                    std::cout << ";in stanga1;\n";
+                    if (board.at(iter).at(jter - 1) != nullptr) {
+                        std::cout << ";in stanga2;\n";
+                        if (board.at(iter).at(jter)->getPlayer() != board.at(iter).at(jter - 1)->getPlayer()) {
+                            std::cout << ";in stanga3;\n";
                             flanks += 0.25;
-                            board.at(iter).at(jter)->defend(flanks*board.at(iter).at(jter-1)->attack());
-                }}}
-                if (board.at(iter).at(jter)->getHealth() <= 0){
+                            board.at(iter).at(jter)->defend(flanks * board.at(iter).at(jter - 1)->attack());
+                        }
+                    }
+                }
+                if (board.at(iter).at(jter)->getHealth() <= 0) {
                     board.at(iter).at(jter) = nullptr;
                     break;
                 }
@@ -62,61 +72,68 @@ void game::check_for_attack() {
         }
     }
 }
+
 //   1
 // 1 1 1
 //   1
-template <typename T> int game::config(player& ply){
-    int x_ =-1, y_=-1;
+template<typename T>
+int game::config(player &ply, int nr_units_left) {
+    int x_ = -1, y_ = -1;
     int units_nr = 0;
     int units_order = 1;
-    std::cout<<"The number of "<<cut(typeid(T).name())<<" units will be:";
-    std::cin>>units_nr;
-   while (units_nr > army_size)
-    {
-        std::cout<<"Error too many units, try again!\n";
-        std::cin>>units_nr;
+    std::cout << "The number of " << cut(typeid(T).name()) << " units will be:";
+    std::cin >> units_nr;
+    while (units_nr > army_size) {
+        std::cout << "Error too many units, try again!\n";
+        std::cin >> units_nr;
+    }
+    while (units_nr > nr_units_left) {
+        std::cout << "You don't have that many units left, try again!\n";
+        std::cin >> units_nr;
     }
     for (auto i = 0; i < units_nr; i++) {
-        std::cout << "Position of "<< cut(typeid(T).name())  <<" " << units_order++ << " will be:\n";
-        std::cin>>x_>>y_;
-            for (int j = 0 ; j < 8; ++j) {
-                if (y_ == j) {
-                    if (x_ == (map_size+3)*(ply.getId()-1)) {
-                        location0.at(j) = std::make_shared<T>(ply.getId(),x_,y_);
-                        ply.getUnitsv().push_back( location0.at(j));
-                    }
-                    if (x_ == 1+(map_size+3)*(ply.getId()-1)) {
-                        location1.at(j) = std::make_shared<T>(ply.getId(),x_,y_);
-                        ply.emplace_units( location1.at(j));
-                    }
-                    if (x_ == 2+(map_size+3)*(ply.getId()-1)) {
-                        location2.at(j) = std::make_shared<T>(ply.getId(),x_,y_);
-                        ply.emplace_units( location2.at(j));
-                    }
+        std::cout << "Position of " << cut(typeid(T).name()) << " " << units_order++ << " will be:\n";
+        std::cin >> x_ >> y_;
+        for (int j = 0; j < 8; ++j) {
+            if (y_ == j) {
+                if (x_ == (map_size + 3) * (ply.getId() - 1)) {
+                    location0.at(j) = std::make_shared<T>(ply.getId(), x_, y_);
+                    ply.getUnitsv().push_back(location0.at(j));
+                }
+                if (x_ == 1 + (map_size + 3) * (ply.getId() - 1)) {
+                    location1.at(j) = std::make_shared<T>(ply.getId(), x_, y_);
+                    ply.getUnitsv().push_back(location1.at(j));
+                }
+                if (x_ == 2 + (map_size + 3) * (ply.getId() - 1)) {
+                    location2.at(j) = std::make_shared<T>(ply.getId(), x_, y_);
+                    ply.getUnitsv().push_back(location2.at(j));
                 }
             }
         }
+    }
     return units_nr;
 
 }
+
 void game::board_fill() {
     std::vector<std::shared_ptr<unit>> fill;
-    for (int j = 0; j < 8; ++j){
+    for (int j = 0; j < 8; ++j) {
         fill.emplace_back(nullptr);
     }
     for (int i = 0; i < map_size; ++i) {
         board.emplace_back(fill);
     }
 }
-void game::print_board(){
-    std::cout<<"   ";
+
+void game::print_board() {
+    std::cout << "   ";
     for (int i = 0; i < 8; ++i) {
-        std::cout<<i<<" ";
+        std::cout << i << " ";
     }
-    std::cout<<"\n";
+    std::cout << "\n";
     int j = 0;
     for (const auto &iter: board) {
-        std::cout<<j++<<"  ";
+        std::cout << j++ << "  ";
         for (auto jter: iter) {
             if (jter == nullptr) {
                 std::cout << "0" << " ";
@@ -128,71 +145,66 @@ void game::print_board(){
         std::cout << "\n";
     }
 }
+
 //// a1 a2 a3 a4 a5
 ////  0  1  2  3  4
-void game::init_player(player& ply, int id) {
+void game::init_player(player &ply, int id) {
     ply.set_id_name(id, get_name(id));
-    std::cout<<"   [FOR "<<ply<<"] \n";
-    std::cout<<"You can set units in rows "<<0+(map_size+3)*(id-1)<<"-"<<2+(map_size+3)*(id-1)<<"\n";
-    std::cout<<"You can set units in columns "<<0<<"-"<<7<<"\n";
+    std::cout << "   [FOR " << ply << "] \n";
+    std::cout << "You can set units in rows " << 0 + (map_size + 3) * (id - 1) << "-" << 2 + (map_size + 3) * (id - 1)
+              << "\n";
+    std::cout << "You can set units in columns " << 0 << "-" << 7 << "\n";
     int nr_1 = 0;
     int nr_2 = 0;
     int nr_3 = 0;
     int nr_4 = 0;
     int nr_units_left = army_size;
     std::cout << "You have " << nr_units_left << " units left\n";
-    nr_1 = this->config<infantry>(ply);
+    nr_1 = this->config<infantry>(ply, nr_units_left);
     nr_units_left -= nr_1;
     std::cout << "You have " << nr_units_left << " units left\n";
-    nr_2 = this->config<archers>(ply);
+    nr_2 = this->config<archers>(ply, nr_units_left);
     nr_units_left -= nr_2;
-    if (nr_units_left < 0) {
-        throw end_game("Player" + ply.getName() + "has too many units!");
-    }
     std::cout << "You have " << nr_units_left << " units left\n";
-    nr_3 = this->config<cavalry>(ply);
+    nr_3 = this->config<cavalry>(ply, nr_units_left);
     nr_units_left -= nr_3;
-    if (nr_units_left < 0) {
-        throw end_game("Player" + ply.getName() + "has too many units!");
-    }
     std::cout << "You have " << nr_units_left << " units left\n";
-    nr_4 = this->config<catapult>(ply);
+    nr_4 = this->config<catapult>(ply, nr_units_left);
     nr_units_left -= nr_4;
-    if (nr_units_left < 0) {
-        throw end_game("Player" + ply.getName() + "has too many units!");
-    }
     board.emplace_back(location0);
     board.emplace_back(location1);
     board.emplace_back(location2);
     std::cout << '\n';
 }
+
 void game::start_game() {
-    std::cout<<"   ";
+    std::cout << "   ";
     for (int i = 0; i < 8; ++i) {
-        std::cout<<i<<" ";
+        std::cout << i << " ";
     }
-    std::cout<<"\n";
+    std::cout << "\n";
     int k = 0;
-    for (int i = 0; i<map_size+6; ++ i) {
+    for (int i = 0; i < map_size + 6; ++i) {
         std::cout << k++ << "  ";
         for (int j = 0; j < 8; ++j) {
-            std::cout<<"0 ";
+            std::cout << "0 ";
         }
-        std::cout<<"\n";
+        std::cout << "\n";
     }
-    init_player(p1,1);
+    init_player(p1, 1);
     board_fill();
-        fill_n(location0.begin(),8,nullptr);
-        fill_n(location1.begin(),8,nullptr);
-        fill_n(location2.begin(),8,nullptr);
-        print_board();
-    init_player(p2,2);
-    std::cout<<"\n";
+    fill_n(location0.begin(), 8, nullptr);
+    fill_n(location1.begin(), 8, nullptr);
+    fill_n(location2.begin(), 8, nullptr);
     print_board();
-            if (p1.getName() == p2.getName()) {
-                throw name_error("Can't use the name " + p1.getName() + " for each player!");
-            }
+    init_player(p2, 2);
+    std::cout << "\n";
+    print_board();
+    if (p1.getName() == p2.getName()) {
+        throw name_error("Can't use the name " + p1.getName() + " for each player!");
+    }
 }
+
 void game::move_unit(int x_init, int y_init, int x_dest, int y_dest) {
     if (board.at(x_init).at(y_init) != nullptr) {
         if (board.at(x_dest).at(y_dest) == nullptr) {
@@ -202,18 +214,20 @@ void game::move_unit(int x_init, int y_init, int x_dest, int y_dest) {
             board.at(x_init).at(y_init) = nullptr;
         } else {
             if (board.at(x_dest).at(y_dest) != nullptr) {
-               std::swap(board.at(x_init).at(y_init), board.at(x_dest).at(y_dest));
+                std::cout << "It can't go there!";
             }
         }
     }
 }
-int game::print_option(){
+
+int game::print_option() {
     int option = 0;
-    std::cin>>option;
+    std::cin >> option;
     return option;
 }
+
 void game::mid_game() {
-  //  auto first = (Random::get({1, 2}));
+    //  auto first = (Random::get({1, 2}));
     player *turn;
     player *other;
     turn = &p1;
@@ -223,22 +237,21 @@ void game::mid_game() {
 //    }
     int moves = 3;
     while (true) {
-        if (turn->zero_units()){
-            if(other->zero_units()) {
+        if (turn->zero_units()) {
+            if (other->zero_units()) {
                 throw end_game("Draw!");
             }
-            throw end_game("Congrats "+other->getName()+"!");
-        }
-        else{
+            throw end_game("Congrats " + other->getName() + "!");
+        } else {
             if (other->zero_units()) {
-                throw end_game("Congrats "+turn->getName()+"!");
+                throw end_game("Congrats " + turn->getName() + "!");
             }
         }
-        while (moves  > 0) {
+        while (moves > 0) {
             p1.view_units();
             p2.view_units();
             std::cout << "You have " << moves << " moves\n";
-            unsigned long long balance_of_power = p1.getUnitsv().size() - p2.getUnitsv().size();
+            auto balance_of_power = p1.getUnitsv().size() - p2.getUnitsv().size();
             std::cout << "The balance of power is: " << balance_of_power << "\n";
             std::cout << "The options of  " << *turn
                       << ":\nMove unit [1]\nNothing [0]\nSurrender [-1]\nArcher Target [2]\nCatapult Target[3]\n";
@@ -262,7 +275,6 @@ void game::mid_game() {
                         break;
                     }
                     if (board.at(x_dest).at(y_dest) != nullptr) {
-                        moves -= 2;
                         move_unit(x_init, y_init, x_dest, y_dest);
                         print_board();
                         break;
@@ -276,14 +288,14 @@ void game::mid_game() {
                     int x_init, y_init, x_dest, y_dest;
                     std::cout << "Enter the archer's position: ";
                     std::cin >> x_init >> y_init;
-                    if (board.at(x_init).at(y_init) == nullptr){
-                        std::cout<<"Error invalid unit";
+                    if (board.at(x_init).at(y_init) == nullptr) {
+                        std::cout << "Error invalid unit";
                         break;
                     }
                     std::cout << "Enter the target's position: ";
                     std::cin >> x_dest >> y_dest;
-                    if (board.at(x_dest).at(y_dest) == nullptr){
-                        std::cout<<"Error invalid unit";
+                    if (board.at(x_dest).at(y_dest) == nullptr) {
+                        std::cout << "Error invalid unit";
                         break;
                     }
                     std::cout << "\n";
@@ -335,36 +347,37 @@ void game::mid_game() {
             }
         }
         check_for_attack();
-        turn->view_archers();
-        turn->view_catapults();
+        turn->view_ranged_units();
         std::swap(turn, other);
-        turn->view_archers();
-        turn->view_catapults();
+        turn->view_ranged_units();
         moves = 3;
         print_board();
         std::cout << "\n";
     }
 }
+
 std::string game::get_name(int player_) {
     std::string name_;
-    std::cout<<"Insert the name of player "<<player_<<":";
-    std::cin>>name_;
+    std::cout << "Insert the name of player " << player_ << ":";
+    std::cin >> name_;
     return name_;
 }
-void game::run(){
+
+void game::run() {
     start_game();
     mid_game();
 }
-game::game(){
+
+game::game() {
     map_size = 4;
     army_size = 9;
     location0.reserve(8);
     location1.reserve(8);
     location2.reserve(8);
-    for (int j = 0; j < 8; ++j){
+    for (int j = 0; j < 8; ++j) {
         location0.emplace_back(nullptr);
         location1.emplace_back(nullptr);
         location2.emplace_back(nullptr);
     }
-    board.reserve((map_size+6)*8);
+    board.reserve((map_size + 6) * 8);
 }

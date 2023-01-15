@@ -4,9 +4,10 @@
 #include <iostream>
 #include "../headers/unit.hpp"
 #include <cmath>
-std::ostream& operator<<(std::ostream& os, const unit& un){
-    os <<un.x<<" "<<un.y;
-    return  os;
+
+std::ostream &operator<<(std::ostream &os, const unit &un) {
+    os << un.x << " " << un.y;
+    return os;
 }
 
 int unit::getHealth() const {
@@ -21,8 +22,13 @@ int unit::getMovementPts() const {
     return movement_pts;
 }
 
-int unit::distance_between(const unit &other) const {
-    return abs((this->x + this->y) - (other.getX() + other.getY()));
+bool unit::distance_between(const unit &other) const {
+    if (abs((this->x + this->y) - (other.x + other.y)) > 1 &&
+        abs((this->x + this->y) - (other.x + other.y)) <= other.range) {
+        return true;
+    }
+    return false;
+
 }
 
 void unit::setX(int x_) {
@@ -33,10 +39,3 @@ void unit::setY(int y_) {
     unit::y = y_;
 }
 
-int unit::getX() const {
-    return x;
-}
-
-int unit::getY() const {
-    return y;
-}

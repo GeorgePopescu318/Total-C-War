@@ -4,6 +4,7 @@
 
 #ifndef MAIN_CPP_SINGETON_HPP
 #define MAIN_CPP_SINGETON_HPP
+
 template<typename T>
 class Singleton {
 private:

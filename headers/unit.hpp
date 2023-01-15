@@ -4,6 +4,7 @@
 
 #ifndef MAIN_CPP_UNIT_H
 #define MAIN_CPP_UNIT_H
+
 #include <iostream>
 #include <memory>
 
@@ -19,12 +20,15 @@ protected:
     int player = -1;
 public:
     unit() = default;
+
     unit(const int health_, const int dmg_, const int defence_, const int range_, const int movement_pts_, const int x_,
          const int y_, const int player_) :
-            health{health_}, dmg{dmg_}, defence{defence_}, range{range_}, movement_pts{movement_pts_}, x{x_}, y{y_} , player{player_}{}
+            health{health_}, dmg{dmg_}, defence{defence_}, range{range_}, movement_pts{movement_pts_}, x{x_}, y{y_},
+            player{player_} {}
 
     unit(const unit &other) : health(other.health), dmg(other.dmg), defence(other.defence),
-                              range(other.range), movement_pts(other.movement_pts), x{other.x}, y{other.y}, player{other.player}{}
+                              range(other.range), movement_pts(other.movement_pts), x{other.x}, y{other.y},
+                              player{other.player} {}
 
     unit &operator=(const unit &other) {
         health = other.health;
@@ -37,32 +41,44 @@ public:
         player = other.player;
         return *this;
     }
-    virtual void print_value(){
-        std::cout<< -1;
+
+    virtual void print_value() {
+        std::cout << -1;
     };
-    friend void swap(unit &u1, unit &u2){
+
+    friend void swap(unit &u1, unit &u2) {
         using std::swap;
-        swap(u1.health,u2.health);
-        swap(u1.dmg,u2.dmg);
-        swap(u1.defence,u2.defence);
-        swap(u1.range,u2.range);
-        swap(u1.movement_pts,u2.movement_pts);
-        swap(u1.x,u2.x);
-        swap(u1.y,u2.y);
-        swap(u1.player,u2.player);
+        swap(u1.health, u2.health);
+        swap(u1.dmg, u2.dmg);
+        swap(u1.defence, u2.defence);
+        swap(u1.range, u2.range);
+        swap(u1.movement_pts, u2.movement_pts);
+        swap(u1.x, u2.x);
+        swap(u1.y, u2.y);
+        swap(u1.player, u2.player);
     }
+
     int getHealth() const;
+
     int getPlayer() const;
+
     int getMovementPts() const;
+
     friend std::ostream &operator<<(std::ostream &os, const unit &un);
+
     virtual int attack() = 0;
+
     virtual void defend(float enemy_attack) = 0;
-    int distance_between(const unit &other) const;
+
+    bool distance_between(const unit &other) const;
+
     virtual std::shared_ptr<unit> clone() const = 0;
+
     virtual ~unit() = default;
-    int getX() const;
-    int getY() const;
+
+
     void setX(int x);
+
     void setY(int y);
 };
 

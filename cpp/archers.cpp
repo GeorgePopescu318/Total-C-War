@@ -7,7 +7,8 @@
 #include <memory>
 
 using Random = effolkronium::random_static;
-archers::archers(int player_, int x_, int y_): miss_chance(75),enemy(nullptr),in_range(false){
+
+archers::archers(int player_, int x_, int y_) : miss_chance(75), enemy(nullptr), in_range(false) {
     health = 30;
     dmg = 30;
     defence = 5;
@@ -17,32 +18,38 @@ archers::archers(int player_, int x_, int y_): miss_chance(75),enemy(nullptr),in
     y = y_;
     player = player_;
 }
-std::ostream& operator<<(std::ostream& os,const archers& arch){
-    os << "Health: " << arch.health << "; Damage: " << arch.dmg << "; Defence: " << arch.defence << "; Range: " << arch.range <<"; Movement Points: "
-       << arch.movement_pts <<"; X Location: "<<arch.x<<"; Y Location: "<<arch.y<< "; Miss chance: " << arch.miss_chance;
+
+std::ostream &operator<<(std::ostream &os, const archers &arch) {
+    os << "Health: " << arch.health << "; Damage: " << arch.dmg << "; Defence: " << arch.defence << "; Range: "
+       << arch.range << "; Movement Points: "
+       << arch.movement_pts << "; X Location: " << arch.x << "; Y Location: " << arch.y << "; Miss chance: "
+       << arch.miss_chance;
     return os;
 }
+
 int archers::attack_ranged() {
-    auto val = Random::get( this->miss_chance, 100);
+    auto val = Random::get(this->miss_chance, 100);
     if (in_range) {
-        return this->dmg*val/100;
-    }
-    else{
+        return this->dmg * val / 100;
+    } else {
         return 0;
     }
 }
+
 int archers::attack() {
-        return this->dmg/4;
+    return this->dmg / 4;
 }
-void archers::set_enemy( unit& other){
-    if(this->distance_between(other) > 1 && this->distance_between(other) < this->range){
+
+void archers::set_enemy(unit &other) {
+    if (this->distance_between(other)) {
         in_range = true;
         enemy = &other;
     }
 }
+
 void archers::check_range() {
     if (enemy != nullptr) {
-        if (!(this->distance_between(*enemy) > 1 && this->distance_between(*enemy) < this->range)) {
+        if (!this->distance_between(*enemy)) {
             in_range = false;
         }
         if (in_range) {
@@ -50,9 +57,10 @@ void archers::check_range() {
         }
     }
 }
+
 void archers::defend(float enemy_attack) {
     auto val = Random::get(70.0, 100.0);
-    this->health -=int(enemy_attack*(100.0/(100+this->defence))*(val/100));
+    this->health -= int(enemy_attack * (100.0 / (100 + this->defence)) * (val / 100));
 }
 
 //std::shared_ptr<unit> archers::getEnemy() const {

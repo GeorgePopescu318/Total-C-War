@@ -38,4 +38,5 @@ public:
 
     ~catapult() override = default;
 };
+
 #endif //MAIN_CPP_CATAPULT_HPP
