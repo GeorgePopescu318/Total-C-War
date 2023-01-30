@@ -7,28 +7,32 @@
 
 #include <iostream>
 #include <memory>
+#include <string>
+#include <utility>
 
 class unit {
 protected:
-    int health = 0;
-    int dmg = 0;
-    int defence = 0;
+    double health = 0.0;
+    double dmg = 0.0;
+    double defence = 0.0;
     int range = 0;
     int movement_pts = 0;
     int x = 0;
     int y = 0;
     int player = -1;
+    std::string name;
 public:
     unit() = default;
 
-    unit(const int health_, const int dmg_, const int defence_, const int range_, const int movement_pts_, const int x_,
-         const int y_, const int player_) :
+    unit(const double health_, const double dmg_, const double defence_, const int range_, const int movement_pts_,
+         const int x_,
+         const int y_, const int player_, std::string name_) :
             health{health_}, dmg{dmg_}, defence{defence_}, range{range_}, movement_pts{movement_pts_}, x{x_}, y{y_},
-            player{player_} {}
+            player{player_}, name{std::move(name_)} {}
 
     unit(const unit &other) : health(other.health), dmg(other.dmg), defence(other.defence),
                               range(other.range), movement_pts(other.movement_pts), x{other.x}, y{other.y},
-                              player{other.player} {}
+                              player{other.player}, name{other.name} {}
 
     unit &operator=(const unit &other) {
         health = other.health;
@@ -46,6 +50,14 @@ public:
         std::cout << -1;
     };
 
+    virtual void print_info() {
+        std::cout << *this;
+    };
+
+    void print_name() {
+        std::cout << this->name;
+    }
+
     friend void swap(unit &u1, unit &u2) {
         using std::swap;
         swap(u1.health, u2.health);
@@ -58,7 +70,7 @@ public:
         swap(u1.player, u2.player);
     }
 
-    int getHealth() const;
+    double getHealth() const;
 
     int getPlayer() const;
 
@@ -66,16 +78,15 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const unit &un);
 
-    virtual int attack() = 0;
+    virtual double attack() = 0;
 
-    virtual void defend(float enemy_attack) = 0;
+    virtual void defend(double enemy_attack) = 0;
 
     bool distance_between(const unit &other) const;
 
     virtual std::shared_ptr<unit> clone() const = 0;
 
     virtual ~unit() = default;
-
 
     void setX(int x);
 

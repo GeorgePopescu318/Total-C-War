@@ -7,13 +7,17 @@
 
 #include <ostream>
 #include "../headers/unit.hpp"
+#include "ranged_unit.hpp"
 
-class catapult : public unit {
-    int miss_chance = 70;
+class catapult : public ranged_unit {
+    double miss_chance = 0.70;
     unit *enemy = nullptr;
     bool in_range = false;
 public:
-    catapult() = default;
+    catapult(const double health_, const double dmg_, const double defence_, const int range_, const int movement_pts_,
+             const int x_, const int y_, const int player_, double miss_chance_, unit *enemy_, bool in_range_)
+            : ranged_unit(health_, dmg_, defence_, range_, movement_pts_, x_, y_, player_, "catapult", miss_chance_,
+                          enemy_, in_range_) {}
 
     catapult(int player_, int x_, int y_);
 
@@ -26,15 +30,9 @@ public:
         std::cout << 6 + value;
     }
 
-    int attack() override;
-
-    void defend(float enemy_attack) override;
-
-    void set_enemy(unit &other);
-
-    void check_range();
-
-    int attack_ranged();
+    void print_info() override {
+        std::cout << this;
+    }
 
     ~catapult() override = default;
 };

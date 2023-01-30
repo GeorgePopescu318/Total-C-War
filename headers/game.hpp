@@ -20,7 +20,9 @@ class game : public Singleton<game> {
     std::vector<std::shared_ptr<unit>> location0;
     std::vector<std::shared_ptr<unit>> location1;
     std::vector<std::shared_ptr<unit>> location2;
-    int map_size;
+    int map_length;
+    int map_width;
+    const int spawn_limit = 3;
     int army_size;
     player p1;
     player p2;
@@ -33,7 +35,7 @@ public:
 
 private:
     template<class T>
-    int config(player &ply, int nr_units_left);
+    int config(player &ply, int nr_units_left, const std::string &unit_type);
 
     void board_fill();
 
@@ -47,8 +49,6 @@ private:
     static int print_option();
 
     void move_unit(int x_init, int y_init, int x_dest, int y_dest);
-
-    static std::string cut(std::string s);
 
     static std::string get_name(int player_);
 

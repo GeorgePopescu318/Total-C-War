@@ -10,7 +10,7 @@ std::ostream &operator<<(std::ostream &os, const unit &un) {
     return os;
 }
 
-int unit::getHealth() const {
+double unit::getHealth() const {
     return health;
 }
 

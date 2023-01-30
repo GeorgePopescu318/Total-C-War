@@ -10,39 +10,44 @@
 
 using Random = effolkronium::random_static;
 
-cavalry::cavalry(int player_, int x_, int y_) : charge_bonus(1), old_x(x_), old_y(y_) {
-    health = 75;
-    dmg = 40;
-    defence = 40;
+cavalry::cavalry(int player_, int x_, int y_) : charge_bonus(1.0), old_x(x_), old_y(y_) {
+    health = 75.0;
+    dmg = 40.0;
+    defence = 40.0;
     range = 1;
     movement_pts = 5;
     x = x_;
     y = y_;
     player = player_;
+    name = "cavalry";
 }
 
 std::ostream &operator<<(std::ostream &os, const cavalry &cav) {
-    os << "Health: " << cav.health << "; Damage: " << cav.dmg << "; Defence: " << cav.defence << "; Range: "
-       << cav.range << "; Movement Points: "
-       << cav.movement_pts << "; X Location: " << cav.x << "; Y Location: " << cav.y << "; Charge bonus: "
+    os << "Name: " << cav.name << "\n Health: " << cav.health << "\n Damage: " << cav.dmg << "\n Defence: "
+       << cav.defence << "\n Range: "
+       << cav.range << "\n Movement Points: "
+       << cav.movement_pts << "\n X Location: " << cav.x << "\n Y Location: " << cav.y << "\n Charge bonus: "
        << cav.charge_bonus;
     return os;
 }
 
-int cavalry::attack() {
-    return int((this->dmg) * (1. + 0.1 * (this->position_difference())));
+double cavalry::attack() {
+    return this->dmg * position_difference();
 }
 
-void cavalry::defend(float enemy_attack) {
-    auto val = Random::get(70.0, 100.0);
-    this->health -= int(enemy_attack * (100.0 / (100 + this->defence)) * (val / 100));
+void cavalry::defend(double enemy_attack) {
+    auto val = Random::get(0.7, 1.0);
+    this->health -= enemy_attack * (100.0 / (100.0 + this->defence)) * val;
 }
 
-int cavalry::position_difference() {
+double cavalry::position_difference() {
     int distance = std::abs((this->x + this->y) - (this->old_y + this->old_x));
     old_x = x;
     old_y = y;
-    return distance + charge_bonus;
+    if (distance == 1) {
+        return 1.0;
+    }
+    return 1. + (0.1 * (distance + charge_bonus));
 }
 
 

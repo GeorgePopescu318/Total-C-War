@@ -8,7 +8,7 @@
 #include "../headers/unit.hpp"
 
 class cavalry : public unit {
-    int charge_bonus = 10;
+    double charge_bonus = 1.0;
     int old_x = -1;
     int old_y = -1;
 public:
@@ -16,9 +16,11 @@ public:
 
     cavalry(int player_, int x_, int y_);
 
-    cavalry(const int health_, const int dmg_, const int defence_, const int range_, const int movement_pts_,
-            const int charge_bonus_, const int x_, const int y_, const int player_, const int old_x_, const int old_y_)
-            : unit(health_, dmg_, defence_, range_, movement_pts_, x_, y_, player_), charge_bonus{charge_bonus_},
+    cavalry(const double health_, const double dmg_, const double defence_, const int range_, const int movement_pts_,
+            const double charge_bonus_, const int x_, const int y_, const int player_, const int old_x_,
+            const int old_y_)
+            : unit(health_, dmg_, defence_, range_, movement_pts_, x_, y_, player_, "cavalry"),
+              charge_bonus{charge_bonus_},
               old_x{old_x_}, old_y{old_y_} {}
 
     friend std::ostream &operator<<(std::ostream &os, const cavalry &cav);
@@ -31,13 +33,17 @@ public:
         std::cout << value;
     }
 
-    int position_difference();
+    void print_info() override {
+        std::cout << *this;
+    }
 
-    int attack() override;
+    double position_difference();
+
+    double attack() override;
 
     std::shared_ptr<unit> clone() const override { return std::make_shared<cavalry>(*this); }
 
-    virtual void defend(float enemy_attack) override;
+    void defend(double enemy_attack) override;
 
     ~cavalry() = default;
 
