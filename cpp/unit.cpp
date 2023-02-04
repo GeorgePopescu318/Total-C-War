@@ -24,18 +24,29 @@ int unit::getMovementPts() const {
 
 bool unit::distance_between(const unit &other) const {
     if (abs((this->x + this->y) - (other.x + other.y)) > 1 &&
-        abs((this->x + this->y) - (other.x + other.y)) <= other.range) {
+        abs((this->x + this->y) - (other.x + other.y)) <= this->range) {
         return true;
     }
     return false;
 
 }
-
 void unit::setX(int x_) {
-    unit::x = x_;
+    this->x = x_;
 }
 
 void unit::setY(int y_) {
-    unit::y = y_;
+    this->y = y_;
 }
 
+int unit::getX() const {
+    return x;
+}
+
+int unit::getY() const {
+    return y;
+}
+//
+//void set_coordonate(int x_, int y_){
+//    this->x = x_;
+//    this->y = y_;
+//}

@@ -15,13 +15,14 @@ void ranged_unit::set_enemy(unit &other) {
 }
 
 double ranged_unit::attack() {
-    return this->dmg / 4;
+    auto dmg_reduction = Random::get(0.7, 1.0);// this determines the random reduction of the dmg
+    return (this->dmg / 4) * dmg_reduction;
 }
 
 double ranged_unit::attack_ranged() {
-    auto val = Random::get(miss_chance, 1.0);
+    auto dmg_reduction = Random::get(miss_chance, 1.0); // this determines the random reduction of the dmg
     if (in_range) {
-        return this->dmg * val / 100;
+        return this->dmg * dmg_reduction;
     } else {
         return 0;
     }
@@ -47,6 +48,5 @@ ranged_unit::ranged_unit(const double health, const double dmg, const double def
                                                       in_range(inRange) {}
 
 void ranged_unit::defend(double enemy_attack) {
-    auto val = Random::get(0.7, 1.1);
-    this->health -= int(enemy_attack * (100.0 / (100 + this->defence)) * val);
+    this->health -= enemy_attack * (100.0 / (100 + this->defence));
 }

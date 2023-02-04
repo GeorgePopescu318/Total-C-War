@@ -22,7 +22,7 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const player &ply);
 
-    void emplace_units(const std::shared_ptr<unit> &vector);
+    void emplace_units(const std::shared_ptr<unit> &other);
 
     bool is_0(const std::shared_ptr<unit> &other) {
         return other->getHealth() == 0;

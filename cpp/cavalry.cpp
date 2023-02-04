@@ -7,6 +7,7 @@
 #include <random>
 #include <cmath>
 #include <iostream>
+#include<cstdio>
 
 using Random = effolkronium::random_static;
 
@@ -23,21 +24,26 @@ cavalry::cavalry(int player_, int x_, int y_) : charge_bonus(1.0), old_x(x_), ol
 }
 
 std::ostream &operator<<(std::ostream &os, const cavalry &cav) {
-    os << "Name: " << cav.name << "\n Health: " << cav.health << "\n Damage: " << cav.dmg << "\n Defence: "
-       << cav.defence << "\n Range: "
-       << cav.range << "\n Movement Points: "
-       << cav.movement_pts << "\n X Location: " << cav.x << "\n Y Location: " << cav.y << "\n Charge bonus: "
-       << cav.charge_bonus;
+    os << "Name: " << cav.name << "\n Health: ";
+    std::printf("%.2f", cav.health);
+    std::cout << "\n Damage: ";
+    std::printf("%.2f", cav.dmg);
+    std::cout << "\n Defence: ";
+    std::printf("%.2f", cav.defence);
+    std::cout << "\n Range: " << cav.range << "\n Movement Points: " << cav.movement_pts
+              << "\n X Location: " << cav.x << "\n Y Location: " << cav.y << "\n Player:" << cav.player
+              << "\n Charge bonus: ";
+    std::printf("%.2f", cav.charge_bonus);
     return os;
 }
 
 double cavalry::attack() {
-    return this->dmg * position_difference();
+    auto dmg_reduction = Random::get(0.7, 1.0);// this determines the random reduction of the dmg
+    return (this->dmg * position_difference()) * dmg_reduction;
 }
 
 void cavalry::defend(double enemy_attack) {
-    auto val = Random::get(0.7, 1.0);
-    this->health -= enemy_attack * (100.0 / (100.0 + this->defence)) * val;
+    this->health -= enemy_attack * (100.0 / (100.0 + this->defence));
 }
 
 double cavalry::position_difference() {

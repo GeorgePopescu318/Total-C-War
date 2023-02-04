@@ -20,7 +20,6 @@ public:
                 int y, int player, const std::string &name, double missChance, unit *enemy, bool inRange);
 
     ~ranged_unit() override = default;
-
     void set_enemy(unit &other);
 
     double attack() override;

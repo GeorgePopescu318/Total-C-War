@@ -11,8 +11,8 @@
 using Random = effolkronium::random_static;
 
 game::game() {
-    map_length = 10;
-    map_width = 16;
+    map_length = 5;
+    map_width = 5;
     army_size = 9;
     location0.reserve(map_width);
     location1.reserve(map_width);
@@ -107,16 +107,19 @@ int game::config(player &ply, int nr_units_left, const std::string &unit_type) {
         for (int j = 0; j < map_width; ++j) {
             if (y_ == j) {
                 if (x_ == (map_length + spawn_limit) * (ply.getId() - 1)) {
-                    location0.at(j) = std::make_shared<T>(ply.getId(), x_, y_);
-                    ply.getUnitsv().push_back(location0.at(j));
+                    std::shared_ptr<T> p = std::make_shared<T>(ply.getId(), x_, y_);
+                    location0.at(j) = p;
+                    ply.emplace_units(p);
                 }
                 if (x_ == 1 + (map_length + spawn_limit) * (ply.getId() - 1)) {
-                    location1.at(j) = std::make_shared<T>(ply.getId(), x_, y_);
-                    ply.getUnitsv().push_back(location1.at(j));
+                    std::shared_ptr<T> p = std::make_shared<T>(ply.getId(), x_, y_);
+                    location1.at(j) = p;
+                    ply.emplace_units(p);
                 }
                 if (x_ == 2 + (map_length + spawn_limit) * (ply.getId() - 1)) {
-                    location2.at(j) = std::make_shared<T>(ply.getId(), x_, y_);
-                    ply.getUnitsv().push_back(location2.at(j));
+                    std::shared_ptr<T> p = std::make_shared<T>(ply.getId(), x_, y_);
+                    location2.at(j) = p;
+                    ply.emplace_units(p);
                 }
             }
         }
@@ -254,6 +257,8 @@ void game::move_unit(int x_init, int y_init, int x_dest, int y_dest) {
             board.at(x_init).at(y_init)->setY(y_dest);
             board.at(x_dest).at(y_dest) = board.at(x_init).at(y_init);
             board.at(x_init).at(y_init) = nullptr;
+            std::cout << "\n" << board.at(x_dest).at(y_dest)->getX();
+            std::cout << board.at(x_dest).at(y_dest)->getY();
         } else {
             if (board.at(x_dest).at(y_dest) != nullptr) {
                 std::cout << "It can't go there!";
@@ -296,7 +301,7 @@ void game::mid_game() {
             auto balance_of_power = p1.getUnitsv().size() - p2.getUnitsv().size();
             std::cout << "The balance of power is: " << balance_of_power << "\n";
             std::cout << "The options of  " << *turn
-                      << ":Skip turn [0]\nMove unit [1]\nArcher Target [2]\nCatapult Target[3]\nUnit Info[4]\nSurrender [-1]\n";
+                      << "\nSkip turn [0]\nMove unit [1]\nArcher Target [2]\nCatapult Target[3]\nUnit Info[4]\nSurrender [-1]\n";
             switch (print_option()) {
                 case 1: {
                     int x_init, y_init, x_dest, y_dest;
@@ -316,13 +321,8 @@ void game::mid_game() {
                         std::cout << "error distance too long\n";
                         break;
                     }
-                    if (board.at(x_dest).at(y_dest) != nullptr) {
-                        move_unit(x_init, y_init, x_dest, y_dest);
-                        print_board();
-                        break;
-                    }
-                    moves--;
                     move_unit(x_init, y_init, x_dest, y_dest);
+                    moves--;
                     print_board();
                     break;
                 }
@@ -346,6 +346,7 @@ void game::mid_game() {
                         std::cout << "Error insert another unit, those are not archers";
                         break;
                     } else {
+                        std::cout << ";;seta;;";
                         selected->set_enemy(*board.at(x_dest).at(y_dest));
                     }
                     break;
@@ -370,6 +371,7 @@ void game::mid_game() {
                         std::cout << "Error insert another unit, that is not a catapult";
                         break;
                     } else {
+                        std::cout << ";;setc;;";
                         selected->set_enemy(*board.at(x_dest).at(y_dest));
                     }
                     break;

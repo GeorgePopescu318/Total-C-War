@@ -6,6 +6,7 @@
 #include "../headers/player.hpp"
 #include "../headers/archers.hpp"
 #include "../headers/catapult.hpp"
+#include<cstdio>
 
 player::player() : id(0) {}
 
@@ -20,7 +21,7 @@ void player::set_id_name(int id_, std::string name_) {
 }
 
 void player::emplace_units(const std::shared_ptr<unit> &other) {
-    this->unitsv.push_back(other->clone());
+    this->unitsv.push_back(other);
 }
 
 int player::getId() const {
@@ -32,7 +33,8 @@ void player::view_units() {
     for (unsigned long long i = 0; i < unitsv.size(); ++i) {
         if (unitsv.at(i)->getHealth() > 0) {
             unitsv.at(i)->print_name();
-            std::cout << " at " << *unitsv.at(i) << " has health:" << unitsv.at(i)->getHealth() << '\n';
+            std::cout << " at " << *unitsv.at(i) << " has health:";
+            std::printf("%2.f\n", unitsv.at(i)->getHealth());
         } else {
             unitsv.at(i) = nullptr;
             unitsv.erase(unitsv.begin() + i);
@@ -44,9 +46,12 @@ void player::view_ranged_units() {
     for (const auto &i: unitsv) {
         if (std::dynamic_pointer_cast<archers>(i) != nullptr) {
             std::dynamic_pointer_cast<archers>(i)->check_range();
+            std::cout << "//a//";
         }
+
         if (std::dynamic_pointer_cast<catapult>(i) != nullptr) {
             std::dynamic_pointer_cast<catapult>(i)->check_range();
+            std::cout << "//b//";
         }
     }
 }

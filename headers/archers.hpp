@@ -9,9 +9,6 @@
 #include "ranged_unit.hpp"
 
 class archers : public ranged_unit {
-    double miss_chance = 0.75;
-    unit *enemy = nullptr;
-    bool in_range = false;
 public:
     archers(int player_, int x_, int y_);
 
@@ -23,8 +20,7 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const archers &arch);
 
-    archers(const archers &other) : ranged_unit(other), miss_chance{other.miss_chance}, enemy{other.enemy},
-                                    in_range{other.in_range} {}
+    archers(const archers &other) = default;
 
     void print_value() override {
         int value = 2 + this->player;

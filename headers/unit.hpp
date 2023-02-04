@@ -88,9 +88,15 @@ public:
 
     virtual ~unit() = default;
 
-    void setX(int x);
+    void setX(int x_);
 
-    void setY(int y);
+    void setY(int y_);
+
+    int getX() const;
+
+    int getY() const;
+
+    void set_coordonate(int x_, int y_);
 };
 
 

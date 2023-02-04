@@ -10,9 +10,6 @@
 #include "ranged_unit.hpp"
 
 class catapult : public ranged_unit {
-    double miss_chance = 0.70;
-    unit *enemy = nullptr;
-    bool in_range = false;
 public:
     catapult(const double health_, const double dmg_, const double defence_, const int range_, const int movement_pts_,
              const int x_, const int y_, const int player_, double miss_chance_, unit *enemy_, bool in_range_)
@@ -22,6 +19,8 @@ public:
     catapult(int player_, int x_, int y_);
 
     std::shared_ptr<unit> clone() const override { return std::make_shared<catapult>(*this); }
+
+    catapult(const catapult &other) = default;
 
     friend std::ostream &operator<<(std::ostream &os, const catapult &catapult);
 
