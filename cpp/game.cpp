@@ -201,6 +201,10 @@ void game::init_player(player &ply, int id) {
     std::cout << "You have " << nr_units_left << " units left\n";
     nr_4 = this->config<catapult>(ply, nr_units_left, "catapult");
     nr_units_left -= nr_4;
+    if (nr_units_left < 0) {
+        std::cout << "Error too many units!";
+        exit(1);
+    }
     board.emplace_back(location0);
     board.emplace_back(location1);
     board.emplace_back(location2);
