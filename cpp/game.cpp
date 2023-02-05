@@ -428,3 +428,6 @@ void game::run() {
     mid_game();
 }
 
+game::game(int mapLength, int mapWidth, int armySize) : map_length(mapLength), map_width(mapWidth),
+                                                        army_size(armySize) {}
+

@@ -1,14 +1,17 @@
 /// {infantry, archers, cavalry};
 #include "headers/game.hpp"
 #include "headers/eroare.hpp"
+#include "headers/Singeton.hpp"
+#include "headers/Menu.hpp"
 #include <iostream>
+
 int main() {
     try {
-        game::getInstance()->run();
+        Menu::getInstance()->interface();
     }
-        catch (end_game &err) {
-            std::cout << err.what() << "\n";
-        }
+    catch (end_game &err) {
+        std::cout << err.what() << "\n";
+    }
     catch (name_error &err) {
         std::cout << err.what() << "\n";
     }

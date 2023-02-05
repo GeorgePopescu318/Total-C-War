@@ -11,8 +11,7 @@ private:
     static T *instance;
 
 protected:
-    Singleton() {}
-
+    Singleton() = default;
 public:
     static T *getInstance() {
         if (!instance)

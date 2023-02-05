@@ -15,7 +15,7 @@
 #include "../headers/catapult.hpp"
 #include "../headers/Singeton.hpp"
 
-class game : public Singleton<game> {
+class game {
     std::vector<std::vector<std::shared_ptr<unit>>> board;
     std::vector<std::shared_ptr<unit>> location0;
     std::vector<std::shared_ptr<unit>> location1;
@@ -28,6 +28,8 @@ class game : public Singleton<game> {
     player p2;
 public:
     game();
+
+    game(int mapLength, int mapWidth, int armySize);
 
     void run();
 
