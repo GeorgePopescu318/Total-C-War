@@ -63,6 +63,9 @@ public:
         return "\nOptions completed!\n\n";
     }
 
+    ~Options() override = default;
+
+    Options() = default;
 };
 
 

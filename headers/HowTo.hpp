@@ -16,6 +16,9 @@ public:
         return "\nHow to play ended!\n\n";
     }
 
+    ~HowTo() override = default;
+
+    HowTo() = default;
 };
 
 #endif //MAIN_CPP_HOWTO_HPP

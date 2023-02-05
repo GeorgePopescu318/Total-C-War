@@ -17,6 +17,10 @@ public:
         g1->run();
         return "";
     }
+
+    ~begin() override = default;
+
+    begin() = default;
 };
 
 
