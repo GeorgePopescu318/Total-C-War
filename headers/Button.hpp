@@ -10,7 +10,7 @@
 
 class Button {
 public:
-    virtual std::string output(int &mapLength, int &mapWidth, int &armySize) = 0;
+    virtual void output(int &mapLength, int &mapWidth, int &armySize) = 0;
 
     virtual ~Button() = default;
 };

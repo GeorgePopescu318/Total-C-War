@@ -9,11 +9,11 @@
 
 class HowTo : public Button {
 public:
-    std::string output(int &mapLength, int &mapWidth, int &armySize) override {
+    void output(int &mapLength, int &mapWidth, int &armySize) override {
         std::cout << "Ask George!\nThe Map Length is " << mapLength << "\nThe Map Width is " << mapWidth
                   << "\nThe Army Size is "
                   << armySize << "\nYou can change these in the Options menu";
-        return "\nHow to play ended!\n\n";
+        //return "\nHow to play ended!\n\n";
     }
 
     ~HowTo() override = default;

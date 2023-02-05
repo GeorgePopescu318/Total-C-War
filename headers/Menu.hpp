@@ -54,7 +54,7 @@ public:
                     break;
                 }
             }
-            std::cout << button->output(mapLength, mapWidth, armySize);
+            button->output(mapLength, mapWidth, armySize);
             button.reset();
         }
     }

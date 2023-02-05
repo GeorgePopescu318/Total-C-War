@@ -13,7 +13,7 @@ using Random = effolkronium::random_static;
 
 class Options : public Button {
 public:
-    std::string output(int &mapLength, int &mapWidth, int &armySize) override {
+    void output(int &mapLength, int &mapWidth, int &armySize) override {
         std::cout
                 << "\nYou can change:\nMap Length (defalut = 5) [0]\nMap Width (default = 11) [1]\nArmy size (default = 9) [2]"
                    "\n Random [3]\nExit [-1]";
@@ -60,7 +60,7 @@ public:
                 }
             }
         }
-        return "\nOptions completed!\n\n";
+        //return "\nOptions completed!\n\n";
     }
 
     ~Options() override = default;

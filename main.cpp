@@ -8,6 +8,8 @@
 int main() {
     try {
         Menu::getInstance()->interface();
+//       game g1;
+//        g1.run();
     }
     catch (end_game &err) {
         std::cout << err.what() << "\n";

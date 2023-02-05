@@ -12,10 +12,9 @@
 
 class begin : public Button {
 public:
-    std::string output(int &mapLength, int &mapWidth, int &armySize) override {
-        std::shared_ptr<game> g1 = std::make_shared<game>(mapLength, mapWidth, armySize);
-        g1->run();
-        return "";
+    void output(int &mapLength, int &mapWidth, int &armySize) override {
+        game g1(mapLength, mapWidth, armySize);
+        g1.run();
     }
 
     ~begin() override = default;
