@@ -55,7 +55,6 @@ public:
                 }
             }
             std::cout << button->output(mapLength, mapWidth, armySize);
-            button = nullptr;
         }
     }
 
